@@ -182,10 +182,10 @@
                         Hitesh Kumar
                     </h1>
                     <h2 class="mt-4 text-2xl md:text-4xl font-semibold">
-                        I'm a <span id="typing-effect" class="gradient-text"></span><span class="typing-cursor"></span>
+                        I'm <span id="typing-effect" class="gradient-text"></span><span class="typing-cursor"></span>
                     </h2>
                     <p class="mt-6 text-lg text-secondary">
-                        A passionate software engineer specializing in building scalable, secure, and efficient cloud-native systems. I transform complex problems into elegant solutions.
+                        A passionate software engineer at Oracle Cloud specializing in building scalable, secure, and efficient cloud-native systems. I transform complex problems into elegant solutions. Expert in Java, Python, and Kubernetes, delivering 90%+ efficiency gains and zero-downtime solutions for large-scale systems and an alumni of prestigious IIITH.
                     </p>
                     <div class="mt-8 flex items-center justify-center md:justify-start space-x-6">
                         <a href="https://www.linkedin.com/in/rewrihitesh/" target="_blank" class="text-secondary hover:text-sky-400 transition-colors" aria-label="LinkedIn"><i data-feather="linkedin" class="w-7 h-7"></i></a>
@@ -250,7 +250,7 @@
                                  <div class="expandable-content mt-2">
                                     <ul class="list-disc list-inside text-secondary text-sm space-y-1">
                                         <li>Developed Rounded Corner feature to enhance visual quality on Snapdragon devices.</li>
-                                        <li>Implemented Concurrent Writeback, achieving a 16% energy efficiency gain.</li>
+                                        <li>Implemented Concurrent Writeback, achieving 16% energy efficiency gain.</li>
                                         <li>Collaborated on DRM kernel drivers and Android SurfaceFlinger.</li>
                                     </ul>
                                 </div>
@@ -371,7 +371,7 @@
             <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Education</h2>
             <div class="max-w-3xl mx-auto">
                 <div class="glass-card p-8 rounded-2xl text-center">
-                    <h3 class="text-2xl font-bold text-primary">International Institute Of Information Technology, Hyderabad</h3>
+                    <h3 class="text-2xl font-bold text-primary">International Institute Of Information Technology, Hyderabad (IIITH)</h3>
                     <p class="text-lg text-secondary mt-1">Master of Technology in Computer Science</p>
                     <p class="text-secondary text-sm">July 2019 - May 2021</p>
                     <div class="mt-4 space-y-2 text-secondary">
@@ -389,11 +389,16 @@
             <p class="max-w-2xl mx-auto text-secondary mb-8">
                 I'm currently seeking new opportunities and am open to collaboration. Whether you have a question or just want to say hi, feel free to reach out.
             </p>
-            <a href="mailto:rewrihitesh@gmail.com" class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
-                Say Hello
-            </a>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+                <a href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio&body=Hi%20Hitesh,%0D%0A%0D%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.%0D%0A%0D%0ARegards," class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
+                    Say Hello
+                </a>
+                <a href="tel:+918295756100" class="flex items-center gap-2 text-secondary hover:text-sky-400 transition-colors">
+                     <i data-feather="phone" class="w-5 h-5"></i>
+                     <span>Connect over call +91 8295756100</span>
+                </a>
+            </div>
         </section>
-
     </main>
 
     <!-- Footer -->
@@ -420,7 +425,7 @@
 
         // Typing Effect
         const typingText = document.getElementById('typing-effect');
-        const words = ["Senior Software Engineer.", "Cloud Security Enthusiast.", "Automation Expert."];
+        const words = ["a Senior Software Engineer.", "a Cloud Security Enthusiast.", "an Automation Expert.", "an expert in Java, Python, Kubernetes, cloud systems"];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
