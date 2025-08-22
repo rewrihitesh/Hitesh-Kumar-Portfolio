@@ -153,6 +153,7 @@
     <header class="fixed top-0 left-0 right-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center glass-card rounded-b-2xl mt-2">
             <a href="#" class="text-2xl font-bold gradient-text">HK</a>
+            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#experience" class="hover:text-sky-400 transition-colors">Experience</a>
                 <a href="#projects" class="hover:text-sky-400 transition-colors">Projects</a>
@@ -163,12 +164,24 @@
                     <i data-feather="download" class="w-4 h-4"></i>
                 </a>
             </div>
-            <div class="flex items-center">
+             <div class="flex items-center">
                  <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-500/20 transition-colors">
                     <i id="theme-icon" data-feather="sun"></i>
                 </button>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 ml-2">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
             </div>
         </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden container mx-auto mt-1 glass-card rounded-2xl">
+            <a href="#experience" class="block py-3 px-6 hover:text-sky-400 transition-colors">Experience</a>
+            <a href="#projects" class="block py-3 px-6 hover:text-sky-400 transition-colors">Projects</a>
+            <a href="#education" class="block py-3 px-6 hover:text-sky-400 transition-colors">Education</a>
+            <a href="#contact" class="block py-3 px-6 hover:text-sky-400 transition-colors">Contact</a>
+            <a href="https://github.com/hitesh-rewri/resume/raw/main/Hitesh_Kumar_Oracle.pdf" target="_blank" class="block py-3 px-6 hover:text-sky-400 transition-colors">Download CV</a>
+        </div>
     </header>
 
     <main class="container mx-auto px-6">
@@ -177,7 +190,7 @@
         <section id="home" class="min-h-screen flex items-center relative">
             <div class="w-full flex flex-col md:flex-row items-center justify-between gap-8">
                 <!-- Left Side: Text Content -->
-                <div class="md:w-7/12 max-w-3xl text-center md:text-left">
+                <div class="md:w-full max-w-3xl text-center md:text-left">
                     <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">
                         Hitesh Kumar
                     </h1>
@@ -192,14 +205,21 @@
                         <a href="https://github.com/rewrihitesh" target="_blank" class="text-secondary hover:text-sky-400 transition-colors" aria-label="GitHub"><i data-feather="github" class="w-7 h-7"></i></a>
                         <a href="mailto:rewrihitesh@gmail.com" class="text-secondary hover:text-sky-400 transition-colors" aria-label="Email"><i data-feather="mail" class="w-7 h-7"></i></a>
                     </div>
-                </div>
-                <!-- Right Side: Image -->
-                <!-- <div class="md:w-5/12 flex justify-center md:justify-end">
-                     <div class="relative flex justify-center items-center w-72 h-72 md:w-80 md:h-80">
-                        <div class="image-glow"></div>
-                        <img src="https://i.ibb.co/6n20d8w/IMG-20240113-145924.jpg" alt="Hitesh Kumar" class="rounded-full shadow-2xl mx-auto border-4 border-purple-500/50 relative z-10 w-full h-full object-cover">
+                    <div class="mt-12 flex flex-wrap gap-8 text-center md:text-left justify-center md:justify-start">
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">8+</h3>
+                            <p class="text-secondary">Years of Experience</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">50+</h3>
+                            <p class="text-secondary">Projects Completed</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">5+</h3>
+                            <p class="text-secondary">Technologies Mastered</p>
+                        </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </section>
 
@@ -250,7 +270,7 @@
                                  <div class="expandable-content mt-2">
                                     <ul class="list-disc list-inside text-secondary text-sm space-y-1">
                                         <li>Developed Rounded Corner feature to enhance visual quality on Snapdragon devices.</li>
-                                        <li>Implemented Concurrent Writeback, achieving 16% energy efficiency gain.</li>
+                                        <li>Implemented Concurrent Writeback, achieving a 16% energy efficiency gain.</li>
                                         <li>Collaborated on DRM kernel drivers and Android SurfaceFlinger.</li>
                                     </ul>
                                 </div>
@@ -319,7 +339,7 @@
             <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Project Card 1 -->
-                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2 gradient-text">
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
                     <h3 class="text-xl font-bold text-sky-600 dark:text-sky-400">Zero-Downtime Certificate Manager</h3>
                     <p class="mt-2 text-secondary text-sm">A thread-safe SSLContext manager in Java that hot-swaps certificates without server restarts, saving significant operational overhead.</p>
                     <div class="mt-4 flex flex-wrap gap-2">
@@ -329,7 +349,7 @@
                     </div>
                 </div>
                 <!-- Project Card 2 -->
-                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2 gradient-text">
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
                     <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">Automated Change Management</h3>
                     <p class="mt-2 text-secondary text-sm">An automation framework using Python that reduced manual task processing time for change management by over 90%.</p>
                     <div class="mt-4 flex flex-wrap gap-2">
@@ -339,7 +359,7 @@
                     </div>
                 </div>
                 <!-- Project Card 3 -->
-                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2 gradient-text">
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
                     <h3 class="text-xl font-bold text-sky-600 dark:text-sky-400">Snapdragon Concurrent Writeback</h3>
                     <p class="mt-2 text-secondary text-sm">A multi-threaded C++ service for Snapdragon 8th Gen SoCs that achieved a 16% energy efficiency gain by optimizing display data capture.</p>
                     <div class="mt-4 flex flex-wrap gap-2">
@@ -363,6 +383,10 @@
                 <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Spring Boot</div>
                 <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Cloud Security</div>
                 <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Jenkins</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">NoSqL</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Kafak</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Redis</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Steam Processing</div>
             </div>
         </section>
 
@@ -393,9 +417,8 @@
                 <a href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio&body=Hi%20Hitesh,%0D%0A%0D%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.%0D%0A%0D%0ARegards," class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
                     Say Hello
                 </a>
-                <a href="tel:+918295756100" class="flex items-center gap-2 text-secondary hover:text-sky-400 transition-colors">
-                     <i data-feather="phone" class="w-5 h-5"></i>
-                     <span>Connect over call +91 8295756100</span>
+                <a href="tel:+918295756100" class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
+                     <span>Connect over call</span>
                 </a>
             </div>
         </section>
@@ -540,6 +563,20 @@
                     button.querySelector('span').textContent = 'Show more';
                     icon.style.transform = 'rotate(0deg)';
                 }
+            });
+        });
+        
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
             });
         });
 
