@@ -141,6 +141,65 @@
         .expandable-content.expanded {
             max-height: 500px; /* Adjust if content is taller */
         }
+        .electro-button {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .electro-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                var(--accent-blue),
+                var(--accent-purple),
+                transparent 30%
+            );
+            transform-origin: center center;
+            animation: spin 4s linear infinite;
+            transform: translate(-50%, -50%);
+            transition: animation-duration 0.3s ease;
+        }
+
+        .electro-button:hover::before {
+            animation-duration: 2s;
+        }
+
+        .electro-button .button-content {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-primary);
+            margin: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+            75% { transform: rotate(-2deg); }
+        }
+
+        .animate-wiggle {
+            animation: wiggle 0.5s ease-in-out;
+        }
+
     </style>
 </head>
 <body class="dark">
@@ -154,12 +213,17 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center glass-card rounded-b-2xl mt-2">
             <a href="#" class="text-2xl font-bold gradient-text">HK</a>
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-8">
+            <div class="hidden md:flex items-center space-x-6">
                 <a href="#experience" class="hover:text-sky-400 transition-colors">Experience</a>
                 <a href="#projects" class="hover:text-sky-400 transition-colors">Projects</a>
                 <a href="#education" class="hover:text-sky-400 transition-colors">Education</a>
                 <a href="#contact" class="hover:text-sky-400 transition-colors">Contact</a>
-                <a href="https://github.com/hitesh-rewri/resume/raw/main/Hitesh_Kumar_Oracle.pdf" target="_blank" class="flex items-center space-x-2 bg-gradient-to-r from-sky-500 to-purple-500 text-white font-semibold py-2 px-4 rounded-full transition-transform duration-300 hover:scale-105">
+                <a id="hire-me-button" href="#contact" class="electro-button inline-block text-white font-bold py-2 px-6 rounded-full hover:scale-105">
+                     <div class="button-content bg-transparent py-1 px-4 rounded-full">
+                        <span class="gradient-text font-semibold">Hire Me</span>
+                     </div>
+                </a>
+                <a href="https://github.com/hitesh-rewri/resume/raw/main/Hitesh_Kumar_Oracle.pdf" target="_blank" class="flex items-center space-x-2 bg-gradient-to-r from-sky-500 to-purple-500 text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-sky-500/50">
                     <span>Download CV</span>
                     <i data-feather="download" class="w-4 h-4"></i>
                 </a>
@@ -180,6 +244,7 @@
             <a href="#projects" class="block py-3 px-6 hover:text-sky-400 transition-colors">Projects</a>
             <a href="#education" class="block py-3 px-6 hover:text-sky-400 transition-colors">Education</a>
             <a href="#contact" class="block py-3 px-6 hover:text-sky-400 transition-colors">Contact</a>
+            <a href="#contact" class="block py-3 px-6 font-semibold gradient-text">Hire Me</a>
             <a href="https://github.com/hitesh-rewri/resume/raw/main/Hitesh_Kumar_Oracle.pdf" target="_blank" class="block py-3 px-6 hover:text-sky-400 transition-colors">Download CV</a>
         </div>
     </header>
@@ -187,7 +252,7 @@
     <main class="container mx-auto px-6">
 
         <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex items-center relative pt-24">
+        <section id="home" class="min-h-screen flex items-center relative pt-24 md:pt-0">
             <div class="w-full flex flex-col md:flex-row items-center justify-between gap-8">
                 <!-- Left Side: Text Content -->
                 <div class="md:w-full max-w-3xl text-center md:text-left">
@@ -410,7 +475,7 @@
                 I'm currently seeking new opportunities and am open to collaboration. Whether you have a question or just want to say hi, feel free to reach out.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-                <a href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio&body=Hi%20Hitesh,%0D%0A%0D%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.%0D%0A%0D%0ARegards," class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
+                <a href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio&body=Hi%20Hitesh,%0D%0A%0D%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.%0D%20%0D%0ARegards," class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
                     Say Hello
                 </a>
                 <a href="tel:+918295756100" class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
@@ -468,7 +533,20 @@
                 setTimeout(type, 1200);
             }
         }
-        document.addEventListener('DOMContentLoaded', () => setTimeout(type, 1500));
+        document.addEventListener('DOMContentLoaded', () => {
+             setTimeout(type, 1500);
+
+            // Wiggle animation for Hire Me button
+            const hireMeButton = document.getElementById('hire-me-button');
+            if (hireMeButton) {
+                setInterval(() => {
+                    hireMeButton.classList.add('animate-wiggle');
+                    setTimeout(() => {
+                        hireMeButton.classList.remove('animate-wiggle');
+                    }, 500); // Animation duration is 0.5s
+                }, 5000); // Wiggle every 5 seconds
+            }
+        });
 
         // Particles.js config
         function setupParticles() {
@@ -579,3 +657,4 @@
     </script>
 </body>
 </html>
+
