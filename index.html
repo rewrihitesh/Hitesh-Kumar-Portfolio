@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitesh Kumar | Senior Software Engineer</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Modern Antigravity CSS -->
+    <link rel="stylesheet" href="modern-antigravity.css">
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        :root {
+            /* Light Theme (Porcelain & Clean) */
+            --bg-primary: #F8FAFC;
+            /* Slate 50 - Softer than pure white */
+            --bg-secondary: #F1F5F9;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            /* More opaque, milky glass */
+            --text-primary: #0F172A;
+            /* Slate 900 */
+            --text-secondary: #475569;
+            /* Slate 600 */
+            --border-primary: rgba(148, 163, 184, 0.2);
+            /* Subtle slate border */
+
+            /* Electric Accents */
+            --accent-blue: #0EA5E9;
+            /* Sky 500 */
+            --accent-purple: #8B5CF6;
+            /* Violet 500 */
+            --accent-glow: rgba(14, 165, 233, 0.25);
+
+            --particle-color: var(--accent-blue);
+            --line-color: var(--accent-purple);
+        }
+
+        html.dark {
+            /* Dark Theme (Deep Midnight) */
+            --bg-primary: #0B1121;
+            /* Deep rich blue/black */
+            --bg-secondary: #151e32;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            /* Darker, more transparent */
+            --text-primary: #F1F5F9;
+            /* Slate 100 */
+            --text-secondary: #94A3B8;
+            /* Slate 400 */
+            --border-primary: rgba(255, 255, 255, 0.08);
+
+            /* Electric Neon Accents */
+            --accent-blue: #38BDF8;
+            /* Sky 400 - brighter for dark mode */
+            --accent-purple: #A78BFA;
+            /* Violet 400 */
+            --accent-glow: rgba(56, 189, 248, 0.25);
+
+            --particle-color: var(--accent-purple);
+            --line-color: var(--accent-blue);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Mesh */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            background:
+                radial-gradient(circle at 15% 50%, var(--accent-glow) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 25%);
+            filter: blur(60px);
+            opacity: 0.6;
+        }
+
+        .text-primary {
+            color: var(--text-primary);
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        html.dark .glass-card {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            /* Deeper shadow for dark mode depth */
+        }
+
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            /* Subtle purple hint on hover */
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* standard property */
+            /* Add drop shadow for better contrast on light mode if needed, 
+               but gradient text usually pops enough. */
+        }
+
+        #particle-container {
+            position: fixed;
+            /* Fixed to stay on screen while scrolling */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #particles-js {
+            width: 100%;
+            height: 100%;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background-color: var(--accent-blue);
+            animation: blink 0.7s infinite;
+            margin-left: 4px;
+            box-shadow: 0 0 10px var(--accent-blue);
+            /* Neon glow */
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .skill-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        html:not(.dark) .skill-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .image-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            /* Larger glow */
+            height: 120%;
+            background: radial-gradient(circle, var(--accent-blue) 0%, var(--accent-purple) 50%, transparent 70%);
+            transform: translate(-50%, -50%);
+            filter: blur(80px);
+            /* Smooth dispersion */
+            opacity: 0.25;
+            z-index: -1;
+            border-radius: 50%;
+            transition: opacity 0.5s ease;
+        }
+
+        html:not(.dark) .image-glow::before {
+            opacity: 0.15;
+            filter: blur(90px);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .expandable-content.expanded {
+            max-height: 500px;
+            /* Adjust if content is taller */
+        }
+
+        .electro-button {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .electro-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent,
+                    var(--accent-blue),
+                    var(--accent-purple),
+                    transparent 30%);
+            transform-origin: center center;
+            animation: spin 4s linear infinite;
+            transform: translate(-50%, -50%);
+            transition: animation-duration 0.3s ease;
+        }
+
+        .electro-button:hover::before {
+            animation-duration: 2s;
+        }
+
+        .electro-button .button-content {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-primary);
+            margin: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes wiggle {
+
+            0%,
+            100% {
+                transform: rotate(0);
+            }
+
+            25% {
+                transform: rotate(-3deg);
+            }
+
+            50% {
+                transform: rotate(3deg);
+            }
+
+            75% {
+                transform: rotate(-2deg);
+            }
+        }
+
+        .animate-wiggle {
+            animation: wiggle 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="dark">
+
+
+
+    <!-- Particle Container -->
+    <div id="particle-container"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center glass-card rounded-b-2xl mt-2">
+            <a href="#" class="text-2xl font-bold gradient-text">HK</a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#experience" class="hover:text-sky-400 transition-colors">Experience</a>
+                <a href="#projects" class="hover:text-sky-400 transition-colors">Projects</a>
+                <a href="#education" class="hover:text-sky-400 transition-colors">Education</a>
+                <a href="#contact" class="hover:text-sky-400 transition-colors">Contact</a>
+                <a id="hire-me-button" href="#contact"
+                    class="electro-button inline-block text-white font-bold py-2 px-6 rounded-full hover:scale-105">
+                    <div class="button-content bg-transparent py-1 px-4 rounded-full">
+                        <span class="gradient-text font-semibold">Hire Me</span>
+                    </div>
+                </a>
+                <a href="https://github.com/rewrihitesh/Hitesh-Kumar-Portfolio/blob/main/raw/Hitesh_Kumar_Oracle.pdf"
+                    target="_blank"
+                    class="flex items-center space-x-2 bg-gradient-to-r from-sky-500 to-purple-500 text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-sky-500/50">
+                    <span>Download CV</span>
+                    <i data-feather="download" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <div class="flex items-center">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-500/20 transition-colors">
+                    <i id="theme-icon" data-feather="sun"></i>
+                </button>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 ml-2">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden container mx-auto mt-1 glass-card rounded-2xl">
+            <a href="#experience" class="block py-3 px-6 hover:text-sky-400 transition-colors">Experience</a>
+            <a href="#projects" class="block py-3 px-6 hover:text-sky-400 transition-colors">Projects</a>
+            <a href="#education" class="block py-3 px-6 hover:text-sky-400 transition-colors">Education</a>
+            <a href="#contact" class="block py-3 px-6 hover:text-sky-400 transition-colors">Contact</a>
+            <a href="#contact" class="block py-3 px-6 font-semibold gradient-text">Hire Me</a>
+            <a href="https://github.com/rewrihitesh/Hitesh-Kumar-Portfolio/blob/main/raw/Hitesh_Kumar_Oracle.pdf"
+                target="_blank" class="block py-3 px-6 hover:text-sky-400 transition-colors">Download CV</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <!-- Hero Section -->
+        <section id="welcome" class="min-h-screen flex items-center relative pt-24 md:pt-0">
+            <div class="w-full flex flex-col md:flex-row items-center justify-between gap-8">
+                <!-- Left Side: Text Content -->
+                <div class="md:w-full max-w-3xl text-center md:text-left">
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight">
+                        Hitesh Kumar
+                    </h1>
+                    <h2 class="mt-4 text-2xl md:text-4xl font-semibold">
+                        I'm <span id="typing-effect" class="gradient-text"></span><span class="typing-cursor"></span>
+                    </h2>
+                    <p class="mt-6 text-lg text-secondary">
+                        A passionate software engineer at Oracle Cloud specializing in building scalable, secure, and
+                        efficient cloud-native systems. I transform complex problems into elegant solutions. Expert in
+                        Java, Python, and Kubernetes, delivering 90%+ efficiency gains and zero-downtime solutions for
+                        large-scale systems and an alumni of prestigious IIITH.
+                    </p>
+                    <div class="mt-8 flex items-center justify-center md:justify-start space-x-6">
+                        <a href="https://www.linkedin.com/in/rewrihitesh/" target="_blank"
+                            class="text-secondary hover:text-sky-400 transition-colors" aria-label="LinkedIn"><i
+                                data-feather="linkedin" class="w-7 h-7"></i></a>
+                        <a href="https://github.com/rewrihitesh" target="_blank"
+                            class="text-secondary hover:text-sky-400 transition-colors" aria-label="GitHub"><i
+                                data-feather="github" class="w-7 h-7"></i></a>
+                        <a href="mailto:rewrihitesh@gmail.com"
+                            class="text-secondary hover:text-sky-400 transition-colors" aria-label="Email"><i
+                                data-feather="mail" class="w-7 h-7"></i></a>
+                    </div>
+                    <div class="mt-12 flex flex-wrap gap-8 text-center md:text-left justify-center md:justify-start">
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">8+</h3>
+                            <p class="text-secondary">Years of Experience</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">50+</h3>
+                            <p class="text-secondary">Projects Completed</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-4xl font-bold gradient-text">5+</h3>
+                            <p class="text-secondary">Technologies Mastered</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-16 gradient-text">Career Journey</h2>
+            <div class="relative max-w-3xl mx-auto">
+                <!-- Timeline line for desktop -->
+                <div
+                    class="hidden md:block absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-sky-500 to-purple-500">
+                </div>
+                <!-- Timeline line for mobile -->
+                <div class="md:hidden absolute left-0 h-full w-0.5 bg-gradient-to-b from-sky-500 to-purple-500"></div>
+
+                <!-- Experience Item 0 (Microsoft) -->
+                <div class="relative mb-12">
+                    <div class="md:flex items-center flex-row-reverse md:space-x-reverse md:space-x-8">
+                        <div class="md:w-1/2"></div>
+                        <div class="w-full md:w-1/2 pl-8 md:pl-0">
+                            <div class="p-6 rounded-2xl glass-card">
+                                <p class="text-sm text-sky-500">Jan 2026 - Present</p>
+                                <h3 class="text-xl font-bold text-primary">Senior Software Engineer</h3>
+                                <p class="font-semibold text-secondary">Microsoft</p>
+                                <div class="expandable-content mt-2">
+                                    <ul class="list-disc list-inside text-secondary text-sm space-y-1">
+                                        <li>Architected and delivered a production-grade AI-powered Windows Service
+                                            using .NET 9.0 and Clean Architecture principles, implementing episodic
+                                            memory and knowledge graph capabilities with multi-user data isolation via
+                                            per-user SQLite databases.</li>
+                                        <li>Reduced memory footprint by 40% through efficient sessionization and 7-day
+                                            data retention policies.</li>
+                                        <li>Engineered a hybrid search system combining FTS5 full-text search,
+                                            ONNX-based vector embeddings (all-MiniLM-L6-v2), and graph traversal
+                                            algorithms to deliver contextual insights with &lt;100ms query latency.</li>
+                                        <li>Leveraged local LLM inference (Ollama/qwen2.5:3b) for semantic triplet
+                                            extraction without cloud dependencies.</li>
+                                        <li>Designed and implemented a scalable multi-stage data pipeline with 3
+                                            background workers processing context events through aggregation, AI-powered
+                                            entity recognition, and knowledge graph maintenance.</li>
+
+                                    </ul>
+                                </div>
+                                <button
+                                    class="expand-toggle text-sky-500 text-sm mt-3 font-semibold flex items-center gap-1">
+                                    <span>Show more</span>
+                                    <i data-feather="chevron-down"
+                                        class="w-4 h-4 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 bg-sky-500 rounded-full border-4"
+                        style="border-color: var(--bg-primary);"></div>
+                </div>
+
+                <!-- Experience Item 1 -->
+                <div class="relative mb-12">
+                    <div class="md:flex items-center md:space-x-8">
+                        <div class="md:w-1/2"></div>
+                        <div class="w-full md:w-1/2 pl-8 md:pl-0">
+                            <div class="p-6 rounded-2xl glass-card">
+                                <p class="text-sm text-sky-500">June 2022 - Sep 2025</p>
+                                <h3 class="text-xl font-bold text-primary">Senior Member Of Technical Staff</h3>
+                                <p class="font-semibold text-secondary">Oracle Cloud</p>
+                                <div class="expandable-content mt-2">
+                                    <ul class="list-disc list-inside text-secondary text-sm space-y-1">
+                                        <li>Achieved zero-downtime certificate updates with a thread-safe SSLContext
+                                            manager.</li>
+                                        <li>Secured 54 critical API endpoints, eliminating high-risk vulnerabilities.
+                                        </li>
+                                        <li>Led security integration for control plane APIs (AuthN/AuthZ/Audit).</li>
+                                        <li>Cut manual task processing time by over 90% through Python automation.</li>
+                                    </ul>
+                                </div>
+                                <button
+                                    class="expand-toggle text-sky-500 text-sm mt-3 font-semibold flex items-center gap-1">
+                                    <span>Show more</span>
+                                    <i data-feather="chevron-down"
+                                        class="w-4 h-4 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 bg-sky-500 rounded-full border-4"
+                        style="border-color: var(--bg-primary);"></div>
+                </div>
+                <!-- Experience Item 2 -->
+                <div class="relative mb-12">
+                    <div class="md:flex items-center flex-row-reverse md:space-x-reverse md:space-x-8">
+                        <div class="md:w-1/2"></div>
+                        <div class="w-full md:w-1/2 pl-8 md:pl-0">
+                            <div class="p-6 rounded-2xl glass-card">
+                                <p class="text-sm text-sky-500">June 2021 - June 2022</p>
+                                <h3 class="text-xl font-bold text-primary">Engineer</h3>
+                                <p class="font-semibold text-secondary">Qualcomm</p>
+                                <div class="expandable-content mt-2">
+                                    <ul class="list-disc list-inside text-secondary text-sm space-y-1">
+                                        <li>Developed Rounded Corner feature to enhance visual quality on Snapdragon
+                                            devices.</li>
+                                        <li>Implemented Concurrent Writeback, achieving a 16% energy efficiency gain.
+                                        </li>
+                                        <li>Collaborated on DRM kernel drivers and Android SurfaceFlinger.</li>
+                                    </ul>
+                                </div>
+                                <button
+                                    class="expand-toggle text-sky-500 text-sm mt-3 font-semibold flex items-center gap-1">
+                                    <span>Show more</span>
+                                    <i data-feather="chevron-down"
+                                        class="w-4 h-4 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 bg-sky-500 rounded-full border-4"
+                        style="border-color: var(--bg-primary);"></div>
+                </div>
+                <!-- Experience Item 3 -->
+                <div class="relative mb-12">
+                    <div class="md:flex items-center md:space-x-8">
+                        <div class="md:w-1/2"></div>
+                        <div class="w-full md:w-1/2 pl-8 md:pl-0">
+                            <div class="p-6 rounded-2xl glass-card">
+                                <p class="text-sm text-sky-500">Nov 2017 - Jul 2019</p>
+                                <h3 class="text-xl font-bold text-primary">Full Stack Developer</h3>
+                                <p class="font-semibold text-secondary">Tech Talisman Engg. Pvt. Ltd.</p>
+                                <div class="expandable-content mt-2">
+                                    <ul class="list-disc list-inside text-secondary text-sm space-y-1">
+                                        <li>Developed Test Module (PHP, MySQL, Redis) and LMS (Node.js, MongoDB) for a
+                                            School Management System.</li>
+                                        <li>Implemented caching with Redis to improve response time.</li>
+                                    </ul>
+                                </div>
+                                <button
+                                    class="expand-toggle text-sky-500 text-sm mt-3 font-semibold flex items-center gap-1">
+                                    <span>Show more</span>
+                                    <i data-feather="chevron-down"
+                                        class="w-4 h-4 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 bg-sky-500 rounded-full border-4"
+                        style="border-color: var(--bg-primary);"></div>
+                </div>
+                <!-- Experience Item 4 -->
+                <div class="relative mb-12">
+                    <div class="md:flex items-center flex-row-reverse md:space-x-reverse md:space-x-8">
+                        <div class="md:w-1/2"></div>
+                        <div class="w-full md:w-1/2 pl-8 md:pl-0">
+                            <div class="p-6 rounded-2xl glass-card">
+                                <p class="text-sm text-sky-500">Aug 2016 - Nov 2017</p>
+                                <h3 class="text-xl font-bold text-primary">Software Engineer</h3>
+                                <p class="font-semibold text-secondary">Tata Consultancy Services</p>
+                                <div class="expandable-content mt-2">
+                                    <ul class="list-disc list-inside text-secondary text-sm space-y-1">
+                                        <li>Worked on enterprise-level software solutions for global clients.</li>
+                                        <li>Gained foundational experience in the full software development lifecycle.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button
+                                    class="expand-toggle text-sky-500 text-sm mt-3 font-semibold flex items-center gap-1">
+                                    <span>Show more</span>
+                                    <i data-feather="chevron-down"
+                                        class="w-4 h-4 transition-transform duration-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute left-0 md:left-1/2 -translate-x-1/2 top-8 w-6 h-6 bg-sky-500 rounded-full border-4"
+                        style="border-color: var(--bg-primary);"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Featured Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
+                    <h3 class="text-xl font-bold gradient-text">Zero-Downtime Certificate Manager</h3>
+                    <p class="mt-2 text-secondary text-sm">A thread-safe SSLContext manager in Java that hot-swaps
+                        certificates without server restarts, saving significant operational overhead.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">Java</span>
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">Concurrency</span>
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">Security</span>
+                    </div>
+                </div>
+                <!-- Project Card 2 -->
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
+                    <h3 class="text-xl font-bold gradient-text">Automated Change Management</h3>
+                    <p class="mt-2 text-secondary text-sm">An automation framework using Python that reduced manual task
+                        processing time for change management by over 90%.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-purple-500/20 text-purple-600 dark:text-purple-300 py-1 px-3 rounded-full">Python</span>
+                        <span
+                            class="text-xs font-semibold bg-purple-500/20 text-purple-600 dark:text-purple-300 py-1 px-3 rounded-full">Automation</span>
+                        <span
+                            class="text-xs font-semibold bg-purple-500/20 text-purple-600 dark:text-purple-300 py-1 px-3 rounded-full">CI/CD</span>
+                    </div>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="glass-card p-6 rounded-2xl transition-transform duration-300 hover:-translate-y-2">
+                    <h3 class="text-xl font-bold gradient-text">Snapdragon Concurrent Writeback</h3>
+                    <p class="mt-2 text-secondary text-sm">A multi-threaded C++ service for Snapdragon 8th Gen SoCs that
+                        achieved a 16% energy efficiency gain by optimizing display data capture.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">C++</span>
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">Linux
+                            Kernel</span>
+                        <span
+                            class="text-xs font-semibold bg-sky-500/20 text-sky-600 dark:text-sky-300 py-1 px-3 rounded-full">Performance</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech-stack" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">My Tech Stack</h2>
+            <div class="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Java</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Python</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">C++</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Kubernetes</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Docker</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Spring Boot</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Cloud Security</div>
+                <div class="skill-card glass-card p-4 rounded-lg text-center font-semibold">Jenkins</div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-20">
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Education</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="glass-card p-8 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-primary">International Institute Of Information Technology,
+                        Hyderabad (IIITH)</h3>
+                    <p class="text-lg text-secondary mt-1">Master of Technology in Computer Science</p>
+                    <p class="text-secondary text-sm">July 2019 - May 2021</p>
+                    <div class="mt-4 space-y-2 text-secondary">
+                        <p><span class="font-semibold text-primary">CGPA:</span> 9.0 / 10.0</p>
+                        <p><span class="font-semibold text-primary">GATE '19:</span> 99.42 percentile (AIR: 1343)</p>
+                        <p class="font-semibold text-purple-500">🏆 Awarded Dean's List for being in the top 5% of the
+                            batch.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 text-center">
+            <h2 class="text-4xl font-bold mb-4 gradient-text">Let's Connect</h2>
+            <p class="max-w-2xl mx-auto text-secondary mb-8">
+                I'm currently seeking new opportunities and am open to collaboration. Whether you have a question or
+                just want to say hi, feel free to reach out.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+                <a href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio&body=Hi%20Hitesh,%0D%0A%0D%0AI%20saw%20your%20portfolio%20and%20would%20like%20to%20connect.%0D%20%0D%0ARegards,"
+                    class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
+                    Say Hello
+                </a>
+                <a href="tel:+918295756100"
+                    class="inline-block bg-gradient-to-r from-sky-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 hover:scale-105">
+                    <span>Connect over call</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t" style="border-color: var(--border-primary);">
+        <div class="container mx-auto px-6 py-6 text-center text-secondary">
+            <p>&copy; <span id="year"></span> Hitesh Kumar. Crafted with passion.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="to-top-button"
+        class="fixed bottom-8 right-8 p-3 rounded-full bg-gradient-to-r from-sky-500 to-purple-500 text-white shadow-lg opacity-0 translate-y-4 transition-all duration-300">
+        <i data-feather="arrow-up"></i>
+    </button>
+
+    <!-- Houdini Particles Script -->
+    <script src="houdini-init.js"></script>
+
+    <script>
+        // Feather Icons
+        feather.replace();
+
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Typing Effect
+        const typingText = document.getElementById('typing-effect');
+        const words = ["a Senior Software Engineer.", "a Cloud Security Enthusiast.", "an Automation Expert.", "an expert in Java, Python, Kubernetes, cloud systems"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            const currentChar = isDeleting ? currentWord.substring(0, charIndex - 1) : currentWord.substring(0, charIndex + 1);
+            typingText.textContent = currentChar;
+
+            if (!isDeleting && charIndex < currentWord.length) {
+                charIndex++;
+                setTimeout(type, 100);
+            } else if (isDeleting && charIndex > 0) {
+                charIndex--;
+                setTimeout(type, 50);
+            } else {
+                isDeleting = !isDeleting;
+                if (!isDeleting) {
+                    wordIndex = (wordIndex + 1) % words.length;
+                }
+                setTimeout(type, 1200);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(type, 1500);
+
+            // Wiggle animation for Hire Me button
+            const hireMeButton = document.getElementById('hire-me-button');
+            if (hireMeButton) {
+                setInterval(() => {
+                    hireMeButton.classList.add('animate-wiggle');
+                    setTimeout(() => {
+                        hireMeButton.classList.remove('animate-wiggle');
+                    }, 500); // Animation duration is 0.5s
+                }, 5000); // Wiggle every 5 seconds
+            }
+        });
+
+
+
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                themeIcon.setAttribute('data-feather', 'sun');
+            } else {
+                html.classList.remove('dark');
+                themeIcon.setAttribute('data-feather', 'moon');
+            }
+            feather.replace();
+            // Antigravity particles handle color automatically or can be communicated via events if needed
+            // currently they are static set of colors which works for both modes
+        }
+
+        // Set initial theme
+        const savedTheme = localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = html.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.theme = newTheme;
+            applyTheme(newTheme);
+        });
+
+        // Back to Top Button
+        const toTopButton = document.getElementById('to-top-button');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                toTopButton.classList.remove('opacity-0', 'translate-y-4');
+            } else {
+                toTopButton.classList.add('opacity-0', 'translate-y-4');
+            }
+        });
+        toTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Expandable content in Experience section
+        document.querySelectorAll('.expand-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.previousElementSibling;
+                const icon = button.querySelector('svg');
+
+                if (!icon) return; // Prevent error if icon not found
+
+                content.classList.toggle('expanded');
+
+                if (content.classList.contains('expanded')) {
+                    button.querySelector('span').textContent = 'Show less';
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    button.querySelector('span').textContent = 'Show more';
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+    </script>
+</body>
+
+</html>
