@@ -5,10 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hitesh Kumar — Senior Software Engineer</title>
 <meta name="description" content="Hitesh Kumar — Senior Software Engineer building reliable, secure cloud systems. Microsoft, Oracle Cloud, Qualcomm. IIIT Hyderabad.">
-<link rel="icon" href="data:,">
-<link rel="preconnect" href="https://rsms.me/">
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" href="assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#EBEFF5">
+<link rel="preload" href="assets/fonts/InterDisplay-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/InterDisplay-500.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* Inter Display by Rasmus Andersson (SIL OFL 1.1, assets/fonts/LICENSE.txt), self-hosted and subset to Latin + punctuation/arrows */
+@font-face{font-family:InterDisplay;font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/InterDisplay-400.woff2) format("woff2")}
+@font-face{font-family:InterDisplay;font-style:normal;font-weight:500;font-display:swap;src:url(assets/fonts/InterDisplay-500.woff2) format("woff2")}
+@font-face{font-family:InterDisplay;font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/InterDisplay-600.woff2) format("woff2")}
+@font-face{font-family:InterDisplay;font-style:normal;font-weight:700;font-display:swap;src:url(assets/fonts/InterDisplay-700.woff2) format("woff2")}
 /* ---------- Design tokens (Makro-derived) ---------- */
 :root{
   --bg:#EBEFF5; --bg-2:#FFFFFF; --ink:#242426; --ink-75:rgb(36 36 38/.75); --ink-50:rgb(36 36 38/.5); --ink-10:rgb(36 36 38/.1);
@@ -61,9 +70,6 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
 .cta{--mx:0px;--my:0px;display:inline-flex;align-items:center;gap:16px;padding:6px 26px 6px 6px;border-radius:18px;background:var(--cta);color:#fff;
   font-size:18px;font-weight:500;transform:translate(var(--mx),var(--my));transition:transform var(--d-fast) var(--ease-out),background var(--d-fast)}
 .cta i{display:grid;place-items:center;width:52px;height:52px;border-radius:13px;background:var(--accent);color:var(--accent-ink);overflow:hidden}
-.cta i svg{transition:transform var(--d-base) var(--ease-spring)}
-.cta:hover{background:var(--ink)} .cta:hover i svg{transform:translateY(3px)}
-.cta--go:hover i svg{transform:translateX(3px)}
 
 .visual{position:relative;height:min(84vh,780px);align-self:end}
 .portrait{position:absolute;inset:0 0 0 4%;display:grid;place-items:end center;
@@ -101,10 +107,29 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
 .chips li{font-size:13px;padding:6px 12px;border-radius:var(--radius-pill);background:var(--bg);color:var(--ink)}
 .num{font-variant-numeric:tabular-nums}
-.pill-btn{display:inline-flex;align-items:center;gap:14px;padding:6px 6px 6px 24px;border-radius:var(--radius-pill);background:#0b0b0c;color:#fff;font-size:17px;font-weight:500;
-  transition:transform var(--d-fast) var(--ease-out),background var(--d-fast)}
-.pill-btn i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;color:#0b0b0c;font-style:normal;transition:transform var(--d-base) var(--ease-spring)}
-.pill-btn:hover{background:var(--ink)} .pill-btn:hover i{transform:rotate(-45deg)}
+.pill-btn{display:inline-flex;align-items:center;gap:14px;padding:6px 24px 6px 6px;border-radius:var(--radius-pill);background:#0b0b0c;color:#fff;font-size:17px;font-weight:500;
+  transition:transform var(--d-fast) var(--ease-out)}
+.pill-btn i{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;color:#0b0b0c;font-style:normal}
+
+/* Swap hover (nav, hero, career and contact CTAs). JS toggles .is-on and measures the travel distances:
+   the icon chip slides to the far end, a fill wipes out from behind the chip, and the label moves into the space it left. */
+.swap{position:relative;isolation:isolate;overflow:hidden;--swap-dur:.6s;--c-t:0px;--c-r:100%;--c-b:0px;--c-l:0px;
+  transition:transform var(--d-fast) var(--ease-out),color .35s var(--ease-out) .06s}
+.swap::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--swap-fill);
+  clip-path:inset(var(--c-t) var(--c-r) var(--c-b) var(--c-l) round var(--chip-rad));transition:clip-path var(--swap-dur) var(--ease-out)}
+.swap > i,.swap__lbl{transition:transform var(--swap-dur) var(--ease-out),background-color .35s var(--ease-out),color .35s var(--ease-out)}
+.swap__lbl{display:inline-block;white-space:nowrap}
+.swap.is-on::before{clip-path:inset(0 0 0 0 round var(--btn-rad))}
+.swap.is-on > i{transform:translateX(var(--travel,0px))}
+.swap.is-on .swap__lbl{transform:translateX(var(--lbl-shift,0px))}
+.cta.swap{--swap-fill:var(--accent);--btn-rad:18px;--chip-rad:13px}
+.cta.swap.is-on{color:var(--ink)} .cta.swap.is-on > i{background:var(--ink);color:var(--accent)}
+.contact .cta.swap{--swap-fill:var(--ink)}
+.contact .cta.swap.is-on{color:#fff} .contact .cta.swap.is-on > i{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost.swap{--swap-fill:var(--ink);--btn-rad:12px;--chip-rad:8px}
+.btn-ghost.swap.is-on{color:#fff} .btn-ghost.swap.is-on > i{background:var(--accent);color:var(--accent-ink)}
+.pill-btn.swap{--swap-fill:var(--accent);--btn-rad:999px;--chip-rad:22px}
+.pill-btn.swap.is-on{color:var(--ink)} .pill-btn.swap.is-on > i{background:var(--ink);color:#fff}
 
 /* ---------- About / Impact bento ---------- */
 .about{z-index:2}
@@ -261,7 +286,6 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
 .contact p{position:relative;color:rgb(255 255 255/.7);font-size:var(--fs-body);max-width:46ch;margin:0 auto;line-height:1.55}
 .contact .ctas{position:relative;justify-content:center}
 .contact .cta{background:#fff;color:var(--ink)}
-.contact .cta:hover{background:#f1f3f7}
 .socials{position:relative;display:flex;justify-content:center;gap:10px;margin-top:28px;list-style:none;padding:0}
 .socials a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-pill);background:rgb(255 255 255/.08);font-size:14px;transition:background var(--d-fast)}
 .socials a:hover{background:rgb(255 255 255/.16)}
@@ -362,7 +386,7 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
   <nav class="nav__inner" aria-label="Primary">
     <a class="logo" href="#top" aria-label="Hitesh Kumar — home"><b>HK</b>Hitesh Kumar</a>
     <ul id="nav-links"><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#projects">Work</a></li><li><a href="#tech-stack">Stack</a></li><li><a href="#contact">Contact</a></li></ul>
-    <a class="btn-ghost" href="#contact"><i aria-hidden="true">→</i>Let's talk</a>
+    <a class="btn-ghost swap" href="#contact"><i aria-hidden="true">→</i><span class="swap__lbl">Let's talk</span></a>
     <button class="menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
   </nav>
 </header>
@@ -375,9 +399,9 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
       <h1 id="hero-title" class="reveal" style="--i:1">Hitesh Kumar.<br><span class="muted">Cloud systems</span> that don't go down.</h1>
       <p class="lede reveal" style="--i:2">Building scalable, secure, cloud-native platforms with Java, Python &amp; Kubernetes. IIIT Hyderabad alum.</p>
       <div class="ctas reveal" style="--i:3">
-        <a class="cta" data-magnetic href="raw/Hitesh_Kumar_Oracle.pdf" download>
+        <a class="cta swap" data-magnetic href="raw/Hitesh_Kumar_Oracle.pdf" download>
           <i aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg></i>
-          Download résumé
+          <span class="swap__lbl">Download résumé</span>
         </a>
       </div>
     </div>
@@ -591,7 +615,7 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
       </li>
     </ol>
     <div class="career__cta rv">
-      <a class="pill-btn" href="https://github.com/rewrihitesh/Hitesh-Kumar-Portfolio/blob/main/raw/Hitesh_Kumar_Oracle.pdf" target="_blank" rel="noopener">View full résumé <i aria-hidden="true">→</i></a>
+      <a class="pill-btn swap" href="https://github.com/rewrihitesh/Hitesh-Kumar-Portfolio/blob/main/raw/Hitesh_Kumar_Oracle.pdf" target="_blank" rel="noopener"><i aria-hidden="true">→</i><span class="swap__lbl">View full résumé</span></a>
     </div>
   </section>
 
@@ -700,9 +724,9 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
       <h2 id="contact-title">Let's build something <span>that doesn't go down.</span></h2>
       <p>Whether you have a role, a project or just a question — my inbox is open.</p>
       <div class="ctas">
-        <a class="cta cta--go" data-magnetic href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio">
+        <a class="cta cta--go swap" data-magnetic href="mailto:rewrihitesh@gmail.com?subject=Connecting%20from%20your%20Portfolio">
           <i aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h14m0 0-5-5m5 5-5 5"/></svg></i>
-          Say hello
+          <span class="swap__lbl">Say hello</span>
         </a>
       </div>
       <ul class="socials">
@@ -733,6 +757,28 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
   menu.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
   nav.querySelectorAll('#nav-links a').forEach(a => a.addEventListener('click', () => setMenu(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* ---- Swap-hover buttons: measure the mirrored positions, toggle .is-on for mouse hover / keyboard focus ---- */
+  const measureSwap = b => {
+    const i = b.querySelector(':scope > i'), l = b.querySelector('.swap__lbl'), W = b.clientWidth, H = b.clientHeight;
+    if (!i || !l || !W) return;
+    const il = i.offsetLeft, it = i.offsetTop, iw = i.offsetWidth, ih = i.offsetHeight;
+    const px = (k, v) => b.style.setProperty(k, v + 'px');
+    px('--travel', W - iw - 2 * il);
+    px('--lbl-shift', W - (l.offsetLeft + l.offsetWidth) - l.offsetLeft);
+    // resting fill sits 1.5px inside the chip so its antialiased edge never peeks out
+    const g = 1.5;
+    px('--c-t', it + g); px('--c-l', il + g); px('--c-r', W - il - iw + g); px('--c-b', H - it - ih + g);
+  };
+  document.querySelectorAll('.swap').forEach(b => {
+    measureSwap(b);
+    if ('ResizeObserver' in window) new ResizeObserver(() => measureSwap(b)).observe(b);
+    b.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') b.classList.add('is-on'); });
+    b.addEventListener('pointerleave', () => b.classList.remove('is-on'));
+    b.addEventListener('focus', () => { if (b.matches(':focus-visible')) b.classList.add('is-on'); });
+    b.addEventListener('blur', () => b.classList.remove('is-on'));
+  });
+  if (document.fonts) document.fonts.ready.then(() => document.querySelectorAll('.swap').forEach(measureSwap));
 
   /* ---- Career-at-a-glance bar: hover / tap a segment to show the role ---- */
   const gRole = document.getElementById('glance-role');

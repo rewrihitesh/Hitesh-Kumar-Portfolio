@@ -11,12 +11,21 @@ A light "Makro-style" layout: a large hero with a 3D portrait and floating metri
 
 ### Where to edit
 
-- All CSS and JS live inside `index.html` (one inline `<style>` and `<script>`). There are no external stylesheets or scripts apart from the Inter webfont.
+- All CSS and JS live inside `index.html` (one inline `<style>` and `<script>`). There are no external stylesheets, scripts or font requests.
 - Each section is marked with a `<!-- ============ NAME ============ -->` comment, e.g. `<!-- ============ CAREER TIMELINE ============ -->`. Search for these to jump to a section.
 - Assets:
   - `assets/img/`: hero portrait (`hk-hero-portrait-3d@640` / `@1024`, AVIF with WebP fallback).
   - `assets/logos/`: company and university logos.
+  - `assets/fonts/`: self-hosted, subset **Inter Display** (400/500/600/700 `.woff2`), loaded with `@font-face` at the top of the inline `<style>`. Inter is licensed under the SIL Open Font License; see `assets/fonts/LICENSE.txt`.
+  - `favicon.ico` and `assets/icons/` (`favicon-32.png`, `icon-192.png`, `apple-touch-icon.png`): favicon and app icons, generated from the avatar.
   - `raw/Hitesh_Kumar_Oracle.pdf`: the résumé linked from the site.
+
+### "Swap" hover on CTA buttons
+
+Buttons with the `.swap` class (e.g. "Download résumé", "View full résumé", "Say hello") use a swap hover. On hover or keyboard focus, the icon chip slides to the opposite end, a colour fill expands from the chip to cover the button, and the label mirrors to the other side. On leave or blur the animation reverses.
+
+- **CSS:** the `.swap` rules drive it. `.is-on` sets the transforms and the `clip-path` of the `::before` fill, and each button variant sets its colours through `--swap-fill`.
+- **JS:** a small `measureSwap` function in the inline script measures the chip and label positions and sets the travel distances as CSS custom properties. A `ResizeObserver` keeps these values correct when the button resizes. Pointer and focus listeners toggle `.is-on` (touch is ignored).
 
 ### Logo sources
 
