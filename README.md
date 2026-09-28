@@ -9,6 +9,17 @@ A light "Makro-style" layout: a large hero with a 3D portrait and floating metri
 - **Static, no build step.** Open `index.html` in a browser or serve the repo root (for example `python -m http.server`).
 - **Sections:** Hero, About bento, Career timeline, Projects, Stack, Education, Contact.
 
+### Design: "Glass Premium"
+
+- **Glassmorphism:** frosted panels over slowly drifting gradient blobs, with gradient rims, a faint grain, and a pointer-following light and tilt on desktop.
+- **Career line:** the timeline line fills as you scroll.
+- **Mobile kit (≤900px):**
+  - A floating bottom dock that highlights the current section.
+  - A contact bottom sheet: Email, Call, WhatsApp, LinkedIn, GitHub, Résumé, Save contact (vCard) and Share.
+  - A touch glow, and a gyroscope tilt light. iOS asks for permission through a "Tilt your phone" chip.
+  - Tapping a role card opens a full detail card with a View Transitions morph. This is mobile only; desktop keeps the accordion.
+- **Accessibility and fallbacks:** respects `prefers-reduced-motion`. Browsers without `backdrop-filter` get opaque panels.
+
 ### Where to edit
 
 - All CSS and JS live inside `index.html` (one inline `<style>` and `<script>`). There are no external stylesheets, scripts or font requests.

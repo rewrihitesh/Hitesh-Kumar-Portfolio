@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-<meta name="theme-color" content="#EBEFF5">
+<meta name="theme-color" content="#EDEFF6">
 <link rel="preload" href="assets/fonts/InterDisplay-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/InterDisplay-500.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -377,9 +377,398 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
   .js .glance__track .seg{transform:none}
   .tl__item{position:relative;top:auto}
 }
+
+/* ================= THEME: Glassmorphism (light) =================
+   A fixed layer of soft colour blobs sits behind frosted, translucent panels.
+   Accent: aqua → lavender gradient (dark ink text on it for contrast); solid violet for small marks. */
+:root{
+  --bg:#EEF1F8; --ink:#1E2233; --ink-75:rgb(30 34 51/.78); --ink-50:rgb(30 34 51/.68); --ink-10:rgb(30 34 51/.1);
+  --accent:#6B5CE7; --accent-ink:#1E2233; --accent-deep:#4B3FC0;
+  --grad:linear-gradient(115deg,#86E6F2 0%,#AFA7FF 55%,#E0B4FF 100%);
+  --glass:rgb(255 255 255/.4); --glass-strong:rgb(255 255 255/.62); --glass-edge:rgb(255 255 255/.7);
+  --glass-dark:rgb(24 26 48/.72);
+  --frost:blur(18px) saturate(160%);
+  --shadow-card:inset 0 1px 0 rgb(255 255 255/.8),0 24px 48px -20px rgb(40 40 100/.3);
+  --shadow-tile:inset 0 1px 0 rgb(255 255 255/.8),0 12px 32px -18px rgb(40 40 100/.26);
+}
+:focus-visible{outline:2px solid var(--accent)}
+
+/* Background blobs (injected <div class="bg-blobs">) */
+.bg-blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-blobs i{position:absolute;width:58vmax;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--b),transparent);
+  will-change:transform;animation:drift var(--t,34s) ease-in-out infinite alternate}
+.bg-blobs i:nth-child(1){--b:rgb(120 196 255/.75);left:52%;top:-18%;--t:38s}
+.bg-blobs i:nth-child(2){--b:rgb(217 255 92/.55);left:-22%;top:18%;--t:44s;animation-direction:alternate-reverse}
+.bg-blobs i:nth-child(3){--b:rgb(186 156 255/.6);left:30%;top:48%;--t:40s}
+.bg-blobs i:nth-child(4){--b:rgb(255 188 170/.55);left:68%;top:62%;--t:48s;animation-direction:alternate-reverse}
+.bg-blobs i:nth-child(5){--b:rgb(110 232 226/.45);left:-10%;top:70%;--t:36s}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(6vw,4vh,0) scale(1.08)}100%{transform:translate3d(-4vw,-3vh,0) scale(.95)}}
+
+/* Shared frosted surface */
+.nav.is-scrolled .nav__inner,.nav.is-open .nav__inner,
+.tile,.mcard,.proj,.tl__card,.card,.marquee,.eyebrow,.tag,.btn-ghost{
+  background:var(--glass);-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);
+  border:1px solid var(--glass-edge)}
+.nav.is-scrolled .nav__inner,.nav.is-open .nav__inner{background:var(--glass-strong);box-shadow:var(--shadow-tile)}
+.eyebrow,.tag,.btn-ghost{background:var(--glass-strong);box-shadow:var(--shadow-tile)}
+/* Sticky timeline cards overlap while stacking: a more opaque glass keeps the card below from bleeding through */
+.tl__card{background:rgb(255 255 255/.66)}
+.mcard,.card{background:rgb(255 255 255/.5)}
+
+/* Nav */
+.logo b{background:var(--glass-dark);color:#AFA7FF}
+.btn-ghost i{background:rgb(255 255 255/.6)}
+
+/* Hero */
+.hero::before{background:none}
+.eyebrow span{background:rgb(255 255 255/.7)}
+.portrait::before{background:radial-gradient(closest-side,rgb(255 255 255/.75),rgb(255 255 255/0))}
+.portrait img{filter:drop-shadow(0 24px 40px rgb(60 50 140/.18))}
+.card--c .thumb{background:linear-gradient(140deg,#1d1f3a,#3a2f6b)}
+.card--c .thumb::after{background:repeating-linear-gradient(90deg,transparent 0 14px,rgb(134 230 242/.3) 14px 15px)}
+
+/* Bento */
+.tile--intro{background:radial-gradient(60% 70% at 100% 0%,rgb(175 167 255/.35),transparent 70%),var(--glass)}
+.avatar{background:rgb(255 255 255/.6);box-shadow:0 0 0 4px rgb(255 255 255/.7),0 0 0 5px var(--ink-10)}
+.chips li{background:rgb(255 255 255/.55);box-shadow:inset 0 0 0 1px rgb(255 255 255/.8)}
+.link-arrow{color:var(--accent-deep);border-color:rgb(107 92 231/.35)}
+.link-arrow:hover{border-color:var(--accent)}
+.mcard .pill{background:rgb(107 92 231/.12);color:var(--accent-deep)}
+.spark path{stroke:var(--accent)}
+.bars i{background:rgb(255 255 255/.6)}
+.bars i:last-child{background:var(--grad)}
+.stats3 div{background:rgb(255 255 255/.45);box-shadow:inset 0 0 0 1px rgb(255 255 255/.7)}
+.glance__track .seg--now{background:var(--grad)}
+.glance__track .mono{box-shadow:0 0 0 2px rgb(255 255 255/.9),0 4px 10px -4px rgb(40 40 100/.3)}
+.tile--skills{background:var(--glass-dark);border-color:rgb(255 255 255/.18);color:#fff}
+.tile--skills .chips li{background:rgb(255 255 255/.1);box-shadow:inset 0 0 0 1px rgb(255 255 255/.14);color:#fff}
+.tile--skills .chips li.hot{background:var(--grad);color:var(--ink);box-shadow:none}
+.ring{border-color:rgb(107 92 231/.35)}
+
+/* Timeline */
+.tl::before{width:2px;background:linear-gradient(#86E6F2,#AFA7FF 60%,transparent)}
+.tl__dot{background:var(--accent);box-shadow:0 0 0 5px rgb(255 255 255/.7),0 0 16px 2px rgb(107 92 231/.45)}
+.tl__item.is-edu .tl__dot{background:#86E6F2;box-shadow:0 0 0 5px rgb(255 255 255/.7),0 0 16px 2px rgb(134 230 242/.6)}
+.tl__plus{background:rgb(255 255 255/.7)}
+
+/* Projects: screens become deep tinted glass */
+.thumb{background:linear-gradient(140deg,#1d1f3a,#3a2f6b)}
+.thumb--wave{background:linear-gradient(140deg,#1b2440,#2b4a6e)}
+.thumb--cert::before{background:repeating-radial-gradient(circle at 70% 40%,transparent 0 22px,rgb(134 230 242/.18) 22px 23px)}
+.thumb--flow::before{background:repeating-linear-gradient(90deg,transparent 0 34px,rgb(175 167 255/.18) 34px 35px),repeating-linear-gradient(0deg,transparent 0 34px,rgb(175 167 255/.1) 34px 35px)}
+.thumb--flow svg path{stroke:#86E6F2}
+.thumb--wave svg path{stroke:#E0B4FF}
+.thumb .metric{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.thumb .metric small{color:rgb(255 255 255/.72)}
+.proj__body h3 i{background:rgb(255 255 255/.7)}
+.proj:hover h3 i{background:var(--grad)}
+
+/* Stack & education */
+.marquee{background:rgb(255 255 255/.3)}
+.marquee ul{color:rgb(30 34 51/.4)}
+.stack .ico{background:rgb(255 255 255/.7)}
+.stack .tile:nth-child(3) .ico{background:var(--grad)}
+.tile--lime{background:var(--grad);border-color:rgb(255 255 255/.8)}
+.tile--lime .k{color:rgb(30 34 51/.82)}
+
+/* Contact: dark tinted glass slab over the blobs */
+.contact{background:var(--glass-dark);-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);border:1px solid rgb(255 255 255/.16);
+  box-shadow:inset 0 1px 0 rgb(255 255 255/.14),0 40px 80px -40px rgb(30 20 90/.5)}
+.contact::before{background:radial-gradient(40% 50% at 50% 0%,rgb(134 230 242/.22),transparent 70%),radial-gradient(28% 38% at 85% 20%,rgb(224 180 255/.2),transparent 70%)}
+.contact .tag{background:rgb(255 255 255/.1);border-color:rgb(255 255 255/.18);color:#fff;box-shadow:none}
+.socials a{background:rgb(255 255 255/.08);box-shadow:inset 0 0 0 1px rgb(255 255 255/.16)}
+
+/* Buttons: dark glass at rest; hover floods with the gradient (ink text keeps contrast) */
+.cta{background:rgb(24 26 48/.86);color:#fff;-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);box-shadow:inset 0 1px 0 rgb(255 255 255/.18),0 14px 30px -14px rgb(30 20 90/.5)}
+.cta i,.pill-btn i{background:var(--grad);color:var(--ink)}
+.pill-btn{background:rgb(24 26 48/.86);box-shadow:inset 0 1px 0 rgb(255 255 255/.18),0 14px 30px -14px rgb(30 20 90/.5)}
+.contact .cta{background:rgb(255 255 255/.92);color:var(--ink)}
+.cta.swap,.contact .cta.swap,.btn-ghost.swap,.pill-btn.swap{--swap-fill:var(--grad)}
+.cta.swap.is-on,.contact .cta.swap.is-on,.btn-ghost.swap.is-on,.pill-btn.swap.is-on{color:var(--ink)}
+.cta.swap.is-on > i,.contact .cta.swap.is-on > i,.btn-ghost.swap.is-on > i,.pill-btn.swap.is-on > i{background:var(--ink);color:#fff}
+
+@media (max-width:900px){
+  .nav.is-open ul{background:var(--glass-strong);-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);border:1px solid var(--glass-edge)}
+}
+/* No backdrop-filter support: fall back to near-opaque panels so text stays readable */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root{--glass:rgb(255 255 255/.86);--glass-strong:rgb(255 255 255/.92);--glass-dark:rgb(24 26 48/.94)}
+  .tl__card,.mcard,.card{background:rgb(255 255 255/.9)}
+}
+
+/* ================= THEME LAYER: Glass Premium =================
+   Loaded after glass.css. Tier 1 = material + restraint (CSS only).
+   Tier 2 = light that follows the pointer (glass-premium.js sets --gx/--gy/--rx/--ry and .is-lit). */
+:root{
+  --bg:#EDEFF6; --ink:#161A2B; --ink-75:rgb(22 26 43/.76); --ink-50:rgb(22 26 43/.64);
+  --grad:linear-gradient(115deg,#9FE3EE 0%,#B9B2FF 52%,#E3C3FF 100%);
+  --glass:rgb(255 255 255/.24); --glass-strong:rgb(255 255 255/.5);
+  --glass-dark:rgb(20 22 40/.78);
+  --frost:blur(14px) saturate(185%);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-soft:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* layered, softer, longer shadows: contact + ambient */
+  --shadow-tile:0 1px 1px rgb(30 30 80/.04),0 8px 16px -8px rgb(30 30 80/.10),0 30px 60px -30px rgb(30 30 80/.22);
+  --shadow-card:0 1px 1px rgb(30 30 80/.05),0 12px 24px -10px rgb(30 30 80/.14),0 44px 80px -36px rgb(30 30 80/.30);
+  --metal:linear-gradient(100deg,#141828 18%,#565C7C 44%,#1B1F33 62%,#3B4060 86%);
+}
+
+/* ---------- Restrained background: 4 deeper, softer blobs + film grain ---------- */
+.bg-blobs{--px:0;--py:0;--sy:0}
+.bg-blobs i{filter:saturate(.95)}
+.bg-blobs i:nth-child(1){--b:rgb(120 168 255/.72)}
+.bg-blobs i:nth-child(2){--b:rgb(150 226 236/.5);left:-18%;top:12%}
+.bg-blobs i:nth-child(3){--b:rgb(172 146 255/.6)}
+.bg-blobs i:nth-child(4){--b:rgb(255 200 190/.5)}
+.bg-blobs i:nth-child(5){--b:rgb(128 222 226/.34);left:-6%;top:78%}
+/* depth parallax: each blob moves by its own factor (translate composes with the drift animation's transform) */
+.bg-blobs i{translate:calc(var(--px) * var(--d,20px)) calc(var(--py) * var(--d,20px) + var(--sy) * var(--sd,-.06px))}
+.bg-blobs i:nth-child(1){--d:34px;--sd:-.08px}.bg-blobs i:nth-child(2){--d:-22px;--sd:-.03px}
+.bg-blobs i:nth-child(3){--d:26px;--sd:-.12px}.bg-blobs i:nth-child(4){--d:-30px;--sd:-.05px}.bg-blobs i:nth-child(5){--d:18px;--sd:-.1px}
+.bg-blobs::after{content:"";position:absolute;inset:0;background:var(--grain);background-size:180px;opacity:.07;mix-blend-mode:multiply}
+
+/* ---------- Glass material: gradient rim, inner specular, grain, cursor glare ---------- */
+.nav.is-scrolled .nav__inner,.nav.is-open .nav__inner,
+.tile,.mcard,.proj,.tl__card,.card{border-color:transparent;isolation:isolate}
+.proj,.tl__card{position:relative}
+.tile,.mcard,.proj,.tl__card,.card{background-image:var(--grain-soft);background-size:180px}
+/* Thinner glass so the blobs read through; a touch denser where cards overlap (timeline stack, hero cards) */
+.tl__card{background-color:rgb(255 255 255/.34)}
+.mcard,.card{background-color:rgb(255 255 255/.28)}
+.tile--lime{background:var(--grain-soft),var(--grad);background-size:180px,auto}
+.tile--intro{background:var(--grain-soft),radial-gradient(60% 70% at 100% 0%,rgb(185 178 255/.3),transparent 70%),var(--glass);background-size:180px,auto,auto}
+.tile,.proj,.tl__card{box-shadow:inset 0 1px 0 rgb(255 255 255/.85),inset 0 -1px 0 rgb(255 255 255/.18),var(--shadow-tile)}
+.mcard,.card{box-shadow:inset 0 1px 0 rgb(255 255 255/.85),var(--shadow-card)}
+
+/* Rim: 1px light edge, brightest top-left, plus a hotspot that follows the cursor */
+.nav__inner::after,.tile::after,.mcard::after,.proj::after,.tl__card::after,.card::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:radial-gradient(180px circle at var(--gx,-200px) var(--gy,-200px),rgb(255 255 255/var(--rim-hot,0)),transparent 70%),
+             linear-gradient(145deg,rgb(255 255 255/.95),rgb(255 255 255/.28) 32%,rgb(255 255 255/.06) 58%,rgb(255 255 255/.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);transition:--rim-hot .4s}
+.nav__inner::after{opacity:0;transition:opacity var(--d-base) var(--ease-out)}
+.nav.is-scrolled .nav__inner::after,.nav.is-open .nav__inner::after{opacity:1}
+@property --rim-hot{syntax:"<number>";inherits:true;initial-value:0}
+.is-lit{--rim-hot:1}
+
+/* Glare: a soft specular spot under the content */
+.tile::before,.mcard::before,.proj::before,.tl__card::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(520px circle at var(--gx,50%) var(--gy,0%),rgb(255 255 255/.42),rgb(255 255 255/0) 42%);
+  opacity:0;transition:opacity .5s var(--ease-out)}
+.is-lit::before{opacity:1}
+.tile--skills::before{background:radial-gradient(520px circle at var(--gx,50%) var(--gy,0%),rgb(185 178 255/.22),transparent 42%)}
+.tile--skills::after{background:radial-gradient(180px circle at var(--gx,-200px) var(--gy,-200px),rgb(255 255 255/calc(var(--rim-hot) * .7)),transparent 70%),
+  linear-gradient(145deg,rgb(255 255 255/.4),rgb(255 255 255/.06) 40%,rgb(255 255 255/.18))}
+
+/* Tilt (pointer:fine only; JS sets --rx/--ry). .mcard/.tl__card/.card keep their JS-driven transforms. */
+.tile{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.proj{--lift:0px;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift))}
+.tile,.proj{--tilt-t:.6s;transition:transform var(--tilt-t) var(--ease-out),box-shadow var(--d-base) var(--ease-out)}
+.js .tile.rv,.js .proj.rv{transition:opacity var(--d-base) var(--ease-out) calc(var(--i,0) * var(--stagger)),translate var(--d-base) var(--ease-out) calc(var(--i,0) * var(--stagger)),
+  transform var(--tilt-t) var(--ease-out),box-shadow var(--d-base) var(--ease-out)}
+.tile.is-lit,.proj.is-lit{--tilt-t:.2s}
+.proj:hover{--lift:-6px;transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift));box-shadow:inset 0 1px 0 rgb(255 255 255/.9),var(--shadow-card)}
+
+/* ---------- Typography & rhythm ---------- */
+.section{padding-top:clamp(120px,13vw,200px);scroll-margin-top:calc(var(--nav-h) - clamp(120px,13vw,200px))}
+h1{letter-spacing:-.05em;background:linear-gradient(180deg,#141828 35%,#40465F);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .muted{color:#9A9DAE;-webkit-text-fill-color:#9A9DAE}
+.sec-head h2{letter-spacing:-.052em}
+.sec-head h2 .muted{color:rgb(22 26 43/.4)}
+.lede,.sec-head p{color:rgb(22 26 43/.68)}
+.eyebrow,.tag{font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;padding-block:7px}
+.eyebrow{padding:5px 16px 5px 5px}
+.nav ul{letter-spacing:.01em}
+/* Frosted headings: resolve from blurred to sharp on reveal */
+.js .sec-head.rv h2{filter:blur(14px);transition:filter 1.2s var(--ease-out) .12s}
+.js .sec-head.rv.in h2{filter:none}
+
+/* Metallic figures */
+.mcard .figure,.tile--glance .figure,.edu .figure,.stats3 b{background:var(--metal);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  transition:background-position 1.6s var(--ease-out)}
+.mcard:hover .figure,.tile--glance:hover .figure,.edu .tile:hover .figure,.stats3 div:hover b{background-position:100% 0}
+.mcard .figure small,.edu .figure small,.tile--glance .figure sup{-webkit-text-fill-color:#7D8195}
+.stats3 b small{-webkit-text-fill-color:#5E6277}
+.tile--lime .figure{background:linear-gradient(100deg,#141828 20%,#3E3A78 50%,#141828 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text}
+.thumb .metric{text-shadow:none;filter:drop-shadow(0 0 18px rgb(185 178 255/.35))}
+
+/* ---------- Refined details ---------- */
+.logo b{background:linear-gradient(145deg,#2A2E4A,#141628);box-shadow:inset 0 1px 0 rgb(255 255 255/.18),0 4px 12px -4px rgb(20 20 60/.5)}
+.chips li{background:rgb(255 255 255/.42);box-shadow:inset 0 1px 0 rgb(255 255 255/.9),inset 0 0 0 1px rgb(255 255 255/.5),0 1px 2px rgb(30 30 80/.06)}
+/* Timeline: a visible track + a glowing fill that follows scroll (JS sets --tl-p; defaults to full) */
+.tl{isolation:isolate}
+.tl::before{width:2px;margin-left:-1px;border-radius:2px;background:linear-gradient(transparent,rgb(90 80 200/.2) 3%,rgb(90 80 200/.2) 94%,transparent)}
+.tl::after{content:"";position:absolute;z-index:-1;left:50%;top:0;height:100%;width:2px;margin-left:-1px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(#4FC3D9,#7B6CF0 55%,#B07CFF 92%,transparent);box-shadow:0 0 12px rgb(123 108 240/.55),0 0 3px rgb(123 108 240/.7);
+  transform-origin:50% 0;transform:scaleY(var(--tl-p,1))}
+.tl__dot{width:11px;height:11px;margin-left:-5.5px;top:44px;background:#fff;box-shadow:0 0 0 2px rgb(107 92 231/.45),0 0 0 7px rgb(255 255 255/.6),0 4px 12px rgb(30 30 80/.18);
+  transition:background .4s var(--ease-out),box-shadow .4s var(--ease-out)}
+.tl__item.is-past .tl__dot{background:#7B6CF0;box-shadow:0 0 0 2px #fff,0 0 0 7px rgb(255 255 255/.6),0 0 22px 4px rgb(123 108 240/.6)}
+.tl__item.is-edu .tl__dot{background:#fff;box-shadow:0 0 0 2px rgb(79 195 217/.55),0 0 0 7px rgb(255 255 255/.6),0 4px 12px rgb(30 30 80/.18)}
+.tl__item.is-edu.is-past .tl__dot{background:#4FC3D9;box-shadow:0 0 0 2px #fff,0 0 0 7px rgb(255 255 255/.6),0 0 22px 4px rgb(79 195 217/.65)}
+.ring{border-style:solid;border-color:rgb(255 255 255/.8);box-shadow:inset 0 0 0 1px rgb(107 92 231/.12),0 6px 14px -8px rgb(30 30 80/.25)}
+.thumb{box-shadow:inset 0 1px 0 rgb(255 255 255/.12),inset 0 0 0 1px rgb(255 255 255/.06)}
+.marquee{border:1px solid rgb(255 255 255/.55)}
+.marquee ul{font-weight:500;letter-spacing:-.01em;color:rgb(22 26 43/.34)}
+
+/* CTAs: deep glass with a specular top edge; the sheen sweeps once after the hero entrance */
+.cta,.pill-btn{background:linear-gradient(180deg,rgb(40 44 72/.9),rgb(18 20 38/.92));box-shadow:inset 0 1px 0 rgb(255 255 255/.22),inset 0 0 0 1px rgb(255 255 255/.06),0 18px 36px -16px rgb(30 20 90/.55)}
+.contact .cta{background:rgb(255 255 255/.94);box-shadow:inset 0 1px 0 #fff,0 18px 36px -16px rgb(0 0 0/.45)}
+.cta.swap::after,.pill-btn.swap::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  background:linear-gradient(105deg,transparent 35%,rgb(255 255 255/.28) 50%,transparent 65%);background-size:250% 100%;background-position:130% 0;
+  animation:sheen 1.6s var(--ease-out) 1.6s both}
+@keyframes sheen{to{background-position:-30% 0}}
+
+/* Contact: deeper slab, luminous headline */
+.contact{background:linear-gradient(160deg,rgb(30 32 58/.82),rgb(14 15 30/.86));box-shadow:inset 0 1px 0 rgb(255 255 255/.16),inset 0 0 0 1px rgb(255 255 255/.06),0 60px 120px -50px rgb(30 20 90/.6)}
+.contact h2{background:linear-gradient(180deg,#fff 40%,#C9C4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact h2 span{-webkit-text-fill-color:#8C8DA8}
+
+@media (max-width:900px){
+  .section{padding-top:clamp(96px,16vw,140px);scroll-margin-top:calc(var(--nav-h) - clamp(96px,16vw,140px))}
+  /* Stacked cards: the thread runs behind the glass and shows in the gaps */
+  .tl::before,.tl::after{display:block}
+}
+/* No backdrop-filter: premium tokens override glass.css's fallback, so restate it */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root{--glass:rgb(255 255 255/.86);--glass-strong:rgb(255 255 255/.92);--glass-dark:rgb(24 26 48/.94)}
+  .tl__card,.mcard,.card{background-color:rgb(255 255 255/.9)}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .sec-head.rv h2{filter:none}
+  .bg-blobs i{translate:none}
+}
+
+/* ================= THEME LAYER: Glass Premium — mobile kit =================
+   Pairs with glass-mobile.js. Dock/sheet/detail at <=900px; touch glow + tilt light on touch devices. */
+
+/* Lighter frost on phones: backdrop-filter is the most expensive thing on the page */
+@media (max-width:900px){:root{--frost:blur(10px) saturate(175%)}}
+
+/* ---------- Layers ---------- */
+html.layer-open{overflow:hidden}
+.layer{position:fixed;inset:0;z-index:50}
+.layer[hidden]{display:none}
+.layer__scrim{position:absolute;inset:0;background:rgb(22 26 43/.3);touch-action:none;opacity:0;transition:opacity .35s var(--ease-out)}
+.layer.is-open .layer__scrim{opacity:1}
+.dock,.nav__cv{display:none}
+
+/* ---------- 1. Bottom dock ---------- */
+@media (max-width:900px){
+  .has-dock .menu{display:none}
+  .has-dock .nav__cv{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px 0 10px;border-radius:13px;font-size:14px;font-weight:500;color:var(--ink);
+    background:rgb(255 255 255/.6);-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(255 255 255/.5),var(--shadow-tile)}
+  .nav__cv svg{width:18px;height:18px}
+  .dock{position:fixed;z-index:20;left:50%;bottom:calc(12px + env(safe-area-inset-bottom));translate:-50% 0;display:flex;align-items:center;gap:2px;padding:6px;
+    width:min(420px,calc(100% - 24px));border-radius:26px;background:rgb(255 255 255/.5);-webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+    box-shadow:inset 0 1px 0 rgb(255 255 255/.95),inset 0 0 0 1px rgb(255 255 255/.5),0 18px 40px -18px rgb(30 30 80/.5),0 2px 6px rgb(30 30 80/.08);
+    animation:dockIn .8s cubic-bezier(.22,1,.36,1) .9s both}
+  .dock a{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 6px;border-radius:20px;
+    font-size:11px;font-weight:500;letter-spacing:.01em;color:rgb(22 26 43/.55);transition:color .3s;-webkit-tap-highlight-color:transparent}
+  .dock a svg{width:21px;height:21px}
+  .dock a[aria-current]{color:var(--ink)}
+  .dock__lens{position:absolute;z-index:0;left:0;top:6px;bottom:6px;width:0;border-radius:20px;opacity:0;
+    background:rgb(255 255 255/.8);box-shadow:inset 0 1px 0 #fff,0 6px 14px -6px rgb(30 30 80/.25);
+    transition:translate .6s cubic-bezier(.34,1.35,.5,1),width .6s cubic-bezier(.34,1.35,.5,1),opacity .3s}
+  .dock__lens.is-on{opacity:1}
+  .dock__cta{position:relative;flex:none;width:54px;height:54px;margin-left:4px;border:0;border-radius:20px;display:grid;place-items:center;color:#fff;cursor:pointer;
+    background:linear-gradient(180deg,rgb(40 44 72/.95),rgb(18 20 38/.96));box-shadow:inset 0 1px 0 rgb(255 255 255/.22),0 10px 22px -10px rgb(30 20 90/.6);-webkit-tap-highlight-color:transparent}
+  .dock__cta::after{content:"";position:absolute;inset:-3px;z-index:-1;border-radius:23px;background:var(--grad);opacity:0;transition:opacity .4s}
+  .dock__cta.is-current::after{opacity:1}
+  .has-dock .footer{padding-bottom:calc(108px + env(safe-area-inset-bottom))}
+  .has-dock .footer:has(~ .style-switch){padding-bottom:8px}
+  .has-dock .style-switch{position:static;translate:none;width:max-content;max-width:calc(100% - 24px);margin:22px auto calc(104px + env(safe-area-inset-bottom))}
+}
+@keyframes dockIn{from{opacity:0;translate:-50% 36px}}
+
+/* ---------- 2. Contact sheet ---------- */
+.sheet__panel{position:absolute;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom));max-width:520px;margin-inline:auto;padding:4px 16px 16px;border-radius:30px;
+  background:rgb(255 255 255/.72);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(255 255 255/.5),0 30px 70px -20px rgb(30 30 80/.45);
+  translate:0 calc(100% + 24px);transition:translate .5s cubic-bezier(.22,1,.36,1)}
+.sheet.is-open .sheet__panel{translate:0 0}
+.sheet__panel.is-drag{transition:none}
+.sheet__grab{display:flex;justify-content:center;padding:9px 0 12px;touch-action:none;cursor:grab}
+.sheet__grab span{width:40px;height:5px;border-radius:5px;background:rgb(22 26 43/.18)}
+.sheet__head{display:flex;align-items:center;gap:12px;padding:0 2px 16px;touch-action:none}
+.sheet__head img{width:52px;height:52px;border-radius:16px;box-shadow:0 6px 14px -6px rgb(30 30 80/.35)}
+.sheet__head h2{margin:0;font-size:19px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.sheet__head p{display:flex;align-items:center;gap:7px;margin:3px 0 0;font-size:13px;color:rgb(22 26 43/.6)}
+.sheet__head p i{width:7px;height:7px;border-radius:50%;background:#34C759;box-shadow:0 0 0 3px rgb(52 199 89/.2)}
+.sheet__x{margin-left:auto;width:40px;height:40px;border:0;border-radius:50%;display:grid;place-items:center;color:var(--ink);cursor:pointer;
+  background:rgb(255 255 255/.75);box-shadow:inset 0 0 0 1px rgb(22 26 43/.06)}
+.sheet__x svg{width:18px;height:18px}
+.sheet__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sheet__grid a{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px 12px;border-radius:20px;
+  font-size:13px;font-weight:500;color:var(--ink);background:rgb(255 255 255/.55);-webkit-tap-highlight-color:transparent;
+  box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(255 255 255/.6),0 2px 8px -4px rgb(30 30 80/.15)}
+.sheet__grid a>span{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--grad);color:var(--ink);box-shadow:inset 0 1px 0 rgb(255 255 255/.6)}
+.sheet__grid a::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s var(--ease-out);
+  background:radial-gradient(140px circle at var(--gx,50%) var(--gy,50%),rgb(255 255 255/.9),transparent 60%)}
+.sheet__grid a.is-pressed::before{opacity:1;transition-duration:.1s}
+.sheet__row{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-top:12px}
+.sheet__row>*{display:flex;align-items:center;justify-content:center;gap:8px;height:54px;border:0;border-radius:18px;font:inherit;font-size:15px;font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sheet__row svg{width:20px;height:20px}
+.sheet__save{color:#fff;background:linear-gradient(180deg,rgb(40 44 72/.95),rgb(18 20 38/.96));box-shadow:inset 0 1px 0 rgb(255 255 255/.2),0 12px 24px -12px rgb(30 20 90/.6)}
+.sheet__share{color:var(--ink);background:rgb(255 255 255/.65);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(22 26 43/.06)}
+.sheet__toast{position:absolute;left:50%;top:-46px;margin:0;padding:8px 14px;border-radius:999px;font-size:13px;white-space:nowrap;color:#fff;background:rgb(20 22 40/.88);
+  translate:-50% 6px;opacity:0;pointer-events:none;transition:opacity .25s,translate .25s}
+.sheet__toast.is-on{opacity:1;translate:-50% 0}
+
+/* ---------- 3. Touch glow ---------- */
+.is-pressed{--rim-hot:1}
+@media (pointer:coarse){
+  :is(.tile,.mcard,.proj,.tl__card)::before{background:radial-gradient(260px circle at var(--gx,50%) var(--gy,0%),rgb(255 255 255/.6),rgb(255 255 255/0) 60%)}
+  .tile--skills::before{background:radial-gradient(260px circle at var(--gx,50%) var(--gy,0%),rgb(185 178 255/.35),transparent 60%)}
+}
+:is(.tile,.mcard,.proj,.tl__card).is-pressed::before{opacity:1;transition-duration:.12s}
+
+/* ---------- 5. Tilt light (html.gyro once the gyroscope reports) ---------- */
+.gyro :is(.tile,.mcard,.proj,.tl__card){--gx:calc(var(--lx,.5) * 100%);--gy:calc(var(--ly,.35) * 100%);--rim-hot:.8}
+.gyro :is(.tile,.mcard,.proj,.tl__card)::before{opacity:.75}
+.gyro :is(.tile,.mcard,.proj,.tl__card).is-pressed::before{opacity:1}
+.gyro .portrait picture{display:block;translate:calc((var(--lx,.5) - .5) * -22px) calc((var(--ly,.35) - .35) * -14px)}
+.tilt-chip{display:inline-flex;align-items:center;gap:8px;margin:18px auto 0;padding:8px 14px 8px 10px;border:0;border-radius:999px;font:inherit;font-size:13px;color:rgb(22 26 43/.72);cursor:pointer;
+  background:rgb(255 255 255/.55);-webkit-backdrop-filter:var(--frost);backdrop-filter:var(--frost);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(255 255 255/.5),var(--shadow-tile)}
+.tilt-chip svg{width:18px;height:18px;color:#7B6CF0}
+
+/* ---------- 6. Timeline detail panel ---------- */
+.tld__card{position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));max-height:calc(100% - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  max-width:560px;margin-inline:auto;overflow:auto;overscroll-behavior:contain;padding:34px 22px 26px;border-radius:30px;
+  background:rgb(255 255 255/.74);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgb(255 255 255/.5),0 30px 70px -20px rgb(30 30 80/.45)}
+.tld__x{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+.tld__x .tl__plus{rotate:45deg;background:rgb(255 255 255/.85);box-shadow:inset 0 0 0 1px rgb(22 26 43/.06)}
+.tld .tl__plus::after{transform:rotate(90deg)}
+.tld__head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.tld__ring{width:104px;height:104px;margin-bottom:8px}
+.tld__ring .mono{width:84px;height:84px}
+.tld__role{margin:0;font-size:26px;font-weight:500;letter-spacing:-.03em;line-height:1.2;color:var(--ink)}
+.tld__co{margin:0;font-size:15px;color:rgb(22 26 43/.6)}
+.tld__date{margin:6px 0 0;font-size:20px;font-weight:500;letter-spacing:-.01em}
+.tld__date i{font-style:normal;margin:0 6px;color:rgb(22 26 43/.5)}
+.tld__body .when{display:block;margin:18px 0;text-align:center;font-size:13px;color:rgb(22 26 43/.55)}
+.tld__body ul:not(.chips){display:grid;gap:10px;margin:0 0 20px;padding-left:20px;font-size:15.5px;line-height:1.55;color:rgb(22 26 43/.78)}
+.tld__body .chips{justify-content:center}
+@supports not (view-transition-name:none){
+  .tld.is-open .tld__card{animation:tldIn .45s cubic-bezier(.22,1,.36,1) both}
+  @keyframes tldIn{from{opacity:0;translate:0 40px}}
+}
+::view-transition-group(*){animation-duration:.55s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(tl-card),::view-transition-new(tl-card){height:100%;width:100%}
+::view-transition-new(tld-body){animation:tldBody .42s cubic-bezier(.22,1,.36,1) .16s both}
+::view-transition-old(tld-body){animation-duration:.14s}
+@keyframes tldBody{from{opacity:0;translate:0 18px}}
+
+@media (prefers-reduced-motion:reduce){
+  .dock{animation:none}
+  .gyro .portrait picture{translate:none}
+}
+
 </style>
 </head>
 <body>
+<div class="bg-blobs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <script>document.documentElement.classList.add('js')</script>
 <a class="sr-only" href="#main">Skip to content</a>
 <header class="nav" id="nav">
@@ -942,6 +1331,371 @@ h1{font-size:var(--fs-h1);font-weight:450;letter-spacing:-.04em;line-height:1.08
     });
     cta.addEventListener('pointerleave', () => { cta.style.setProperty('--mx', '0px'); cta.style.setProperty('--my', '0px'); });
   });
+})();
+</script>
+<script>
+/* Glass Premium: pointer-reactive light. Mouse/pen only; nothing runs for reduced motion. */
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const blobs = document.querySelector('.bg-blobs');
+  const tl = document.getElementById('tl');
+  const tlDots = tl ? [...tl.querySelectorAll('.tl__item')].map(it => [it, it.querySelector('.tl__dot')]) : [];
+
+  // Background depth: blobs drift against the pointer and scroll at different rates
+  let px = 0, py = 0, queued = false;
+  const paint = () => {
+    queued = false;
+    if (tl) {
+      // Timeline fill tracks a reading line at 60% of the viewport; dots light once it passes them
+      const line = innerHeight * .6, r = tl.getBoundingClientRect();
+      tl.style.setProperty('--tl-p', Math.min(1, Math.max(0, (line - r.top) / r.height)).toFixed(4));
+      tlDots.forEach(([it, dot]) => it.classList.toggle('is-past', dot.getBoundingClientRect().top < line));
+    }
+    if (!blobs) return;
+    if (fine) { // touch devices get --px/--py from the tilt light instead
+      blobs.style.setProperty('--px', px.toFixed(3));
+      blobs.style.setProperty('--py', py.toFixed(3));
+    }
+    blobs.style.setProperty('--sy', Math.round(scrollY));
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(paint); } };
+  addEventListener('scroll', queue, { passive: true });
+  if (fine) addEventListener('pointermove', e => { px = e.clientX / innerWidth * 2 - 1; py = e.clientY / innerHeight * 2 - 1; queue(); }, { passive: true });
+  paint();
+
+  if (!fine) return;
+
+  // Glass panels: glare + rim hotspot follow the cursor; .tile / .proj also tilt toward it
+  const TILT = '.tile, .proj';
+  document.querySelectorAll('.tile, .mcard, .proj, .tl__card, .card').forEach(el => {
+    const tilts = el.matches(TILT);
+    let r = null, raf = 0, ex = 0, ey = 0;
+    const update = () => {
+      raf = 0;
+      const x = ex - r.left, y = ey - r.top;
+      el.style.setProperty('--gx', x.toFixed(1) + 'px');
+      el.style.setProperty('--gy', y.toFixed(1) + 'px');
+      if (tilts) {
+        const max = Math.min(4, 1100 / r.width); // big tiles tilt less
+        el.style.setProperty('--ry', ((x / r.width - .5) * 2 * max).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((.5 - y / r.height) * 2 * max).toFixed(2) + 'deg');
+      }
+    };
+    el.addEventListener('pointerenter', e => {
+      if (e.pointerType === 'touch') return;
+      r = el.getBoundingClientRect(); el.classList.add('is-lit');
+    });
+    el.addEventListener('pointermove', e => {
+      if (!r || e.pointerType === 'touch') return;
+      ex = e.clientX; ey = e.clientY;
+      if (!raf) raf = requestAnimationFrame(update);
+    });
+    el.addEventListener('pointerleave', () => {
+      r = null; el.classList.remove('is-lit');
+      if (tilts) { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); }
+    });
+  });
+  // Rects go stale when the page scrolls under a still cursor
+  addEventListener('scroll', () => document.querySelectorAll('.is-lit').forEach(el => el.dispatchEvent(new PointerEvent('pointerenter'))), { passive: true });
+})();
+
+/* Glass Premium — mobile kit: bottom dock, contact sheet, touch glow, tilt light, timeline card morph.
+   Dock/sheet/morph apply at <=900px; touch glow on touch input; tilt light on coarse pointers. */
+(() => {
+  const root = document.documentElement, body = document.body;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const small = matchMedia('(max-width: 900px)');
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const el = h => { const t = document.createElement('template'); t.innerHTML = h.trim(); return t.content.firstElementChild; };
+  const svg = d => `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const I = {
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+    career: '<rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 13h18"/>',
+    work: '<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/>',
+    code: '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+    chat: '<path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.6A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
+    phone: '<path d="M5 4h3.5l2 5-2.5 1.5a11 11 0 0 0 5.5 5.5l1.5-2.5 5 2V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
+    wa: '<path d="M3.5 20.5l1.3-4.3A8.5 8.5 0 1 1 8 19.3Z"/><path d="M9 8.5c0 3.6 2.9 6.5 6.5 6.5l.9-1.7-2-1-.9.9a4 4 0 0 1-2.2-2.2l.9-.9-1-2Z"/>',
+    linkedin: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.5v.01M12 17v-6.5M12 13.5a2.5 2.5 0 0 1 5 0V17"/>',
+    github: '<path d="M9 19c-4 1.3-4-2-6-2.5M15 21v-3.5a3 3 0 0 0-.9-2.3c3-.3 6-1.5 6-6.6a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.7 1.4a12.7 12.7 0 0 0-6.6 0C5.7 1.1 4.6 1.4 4.6 1.4a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 3 8.6c0 5.1 3 6.3 6 6.6a3 3 0 0 0-.9 2.3V21"/>',
+    down: '<path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/>',
+    save: '<circle cx="10" cy="8" r="4"/><path d="M3 21c1.3-3.8 4-5.5 7-5.5 1.6 0 3.1.5 4.3 1.4M19 14v6M16 17h6"/>',
+    share: '<path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 13v5.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V13"/>',
+    close: '<path d="M6 6l12 12M18 6 6 18"/>',
+    spark: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9Z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/>'
+  };
+
+  /* Contact details come from the page so there's one source of truth */
+  const SITE = 'https://rewrihitesh.github.io/Hitesh-Kumar-Portfolio/';
+  const href = sel => document.querySelector(sel)?.getAttribute('href') || '';
+  const email = href('.contact a[href^="mailto:"]'), tel = href('.contact a[href^="tel:"]');
+  const linkedin = href('.contact a[href*="linkedin.com"]'), github = href('.contact a[href*="github.com"]');
+  const resume = href('.hero a[download]');
+  const phone = tel.replace(/^tel:/, ''), addr = decodeURIComponent(email.replace(/^mailto:/, '').split('?')[0]);
+  const wa = phone ? 'https://wa.me/' + phone.replace(/\D/g, '') : '';
+
+  /* ---------- Layers (sheet + detail): history-aware, inert page behind, focus returns ---------- */
+  let layer = null;
+  const setInert = on => [...body.children].forEach(n => { if (!n.matches('script, .layer')) n.inert = on; });
+  const vt = (update, done) => {
+    if (reduce || !document.startViewTransition) { update(); done?.(); return; }
+    document.startViewTransition(update).finished.finally(() => done?.());
+  };
+  function openLayer(node, show, hide) {
+    if (layer) return;
+    layer = { node, hide, opener: document.activeElement, y: scrollY, sr: history.scrollRestoration };
+    history.scrollRestoration = 'manual';
+    history.pushState({ hkLayer: true }, '');
+    root.classList.add('layer-open'); setInert(true);
+    show();
+  }
+  function finishClose() {
+    if (!layer) return;
+    const l = layer; layer = null;
+    root.classList.remove('layer-open'); setInert(false);
+    l.hide();
+    l.opener?.focus?.({ preventScroll: true });
+    // back to the scroll position the layer opened at, whatever the page or browser did on popstate
+    setTimeout(() => {
+      history.scrollRestoration = l.sr;
+      if (Math.abs(scrollY - l.y) > 1) scrollTo({ top: l.y, behavior: 'instant' });
+    });
+  }
+  const closeLayer = () => { if (!layer) return; history.state?.hkLayer ? history.back() : finishClose(); };
+  // runs before the page's popstate where capture-at-target is honoured; finishClose also restores scroll for other engines
+  addEventListener('popstate', e => { if (layer) { e.stopImmediatePropagation(); finishClose(); } }, true);
+  // Edge runs the page's popstate first; it would smooth-scroll back to the hash while a layer is closing
+  const nativeScrollTo = window.scrollTo;
+  window.scrollTo = function (...a) { if (!layer) return nativeScrollTo.apply(this, a); };
+  addEventListener('keydown', e => { if (e.key === 'Escape' && layer) closeLayer(); });
+  document.addEventListener('click', e => { if (layer && e.target.closest('[data-close]')) closeLayer(); });
+
+  /* ---------- 2. Contact sheet ---------- */
+  const vcard = ['BEGIN:VCARD', 'VERSION:3.0', 'N:Kumar;Hitesh;;;', 'FN:Hitesh Kumar', 'TITLE:Senior Software Engineer', 'ORG:Microsoft',
+    addr && `EMAIL;TYPE=INTERNET:${addr}`, phone && `TEL;TYPE=CELL:${phone}`, `URL:${SITE}`, linkedin && `URL:${linkedin}`, 'END:VCARD'].filter(Boolean).join('\r\n');
+  const act = (h, icon, label, extra = '') => h ? `<a href="${h}"${extra}><span>${svg(icon)}</span>${label}</a>` : '';
+  const ext = ' target="_blank" rel="noopener"';
+  const sheet = el(`<div class="layer sheet" id="contact-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="layer__scrim" data-close></div>
+    <div class="sheet__panel">
+      <p class="sheet__toast" role="status" aria-live="polite"></p>
+      <div class="sheet__grab" aria-hidden="true"><span></span></div>
+      <div class="sheet__head">
+        <img src="assets/icons/icon-192.png" alt="" width="52" height="52">
+        <div><h2 id="sheet-title">Hitesh Kumar</h2><p><i></i>Open to opportunities</p></div>
+        <button class="sheet__x" type="button" data-close aria-label="Close">${svg(I.close)}</button>
+      </div>
+      <div class="sheet__grid">
+        ${act(email, I.mail, 'Email')}${act(tel, I.phone, 'Call')}${act(wa, I.wa, 'WhatsApp', ext)}
+        ${act(linkedin, I.linkedin, 'LinkedIn', ext)}${act(github, I.github, 'GitHub', ext)}${act(resume, I.down, 'Résumé', ' download')}
+      </div>
+      <div class="sheet__row">
+        <a class="sheet__save" href="data:text/vcard;charset=utf-8,${encodeURIComponent(vcard)}" download="Hitesh-Kumar.vcf">${svg(I.save)}Save contact</a>
+        <button class="sheet__share" type="button">${svg(I.share)}Share</button>
+      </div>
+    </div>
+  </div>`);
+  body.append(sheet);
+  const panel = sheet.querySelector('.sheet__panel'), toastEl = sheet.querySelector('.sheet__toast');
+  let sheetTimer = 0, toastTimer = 0;
+  const toast = msg => { toastEl.textContent = msg; toastEl.classList.add('is-on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('is-on'), 2200); };
+  const openSheet = () => openLayer(sheet, () => {
+    clearTimeout(sheetTimer); sheet.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('is-open')));
+    sheet.querySelector('.sheet__x').focus({ preventScroll: true });
+  }, () => {
+    sheet.classList.remove('is-open');
+    sheetTimer = setTimeout(() => { sheet.hidden = true; }, reduce ? 0 : 420);
+  });
+  sheet.querySelector('.sheet__share').addEventListener('click', async () => {
+    const data = { title: 'Hitesh Kumar — Senior Software Engineer', text: "Hitesh Kumar — cloud systems that don't go down.", url: SITE };
+    if (navigator.share) { try { await navigator.share(data); } catch (_) { /* dismissed */ } return; }
+    try { await navigator.clipboard.writeText(SITE); toast('Link copied'); } catch (_) { toast(SITE); }
+  });
+  // Drag the handle/header down to dismiss
+  let drag = null;
+  panel.addEventListener('pointerdown', e => {
+    if (!e.target.closest('.sheet__grab, .sheet__head') || e.target.closest('button')) return;
+    drag = { y: e.clientY, t: performance.now(), dy: 0 };
+    panel.setPointerCapture(e.pointerId); panel.classList.add('is-drag');
+  });
+  panel.addEventListener('pointermove', e => {
+    if (!drag) return;
+    drag.dy = Math.max(0, e.clientY - drag.y); panel.style.translate = `0 ${drag.dy}px`;
+  });
+  const endDrag = () => {
+    if (!drag) return;
+    const v = drag.dy / Math.max(1, performance.now() - drag.t);
+    panel.classList.remove('is-drag'); panel.style.translate = '';
+    if (drag.dy > 110 || (drag.dy > 30 && v > .5)) closeLayer();
+    drag = null;
+  };
+  panel.addEventListener('pointerup', endDrag);
+  panel.addEventListener('pointercancel', endDrag);
+
+  /* ---------- 1. Bottom dock (thumb zone) + résumé button in the top bar ---------- */
+  const DOCK = [['about', 'About', I.user], ['experience', 'Career', I.career], ['projects', 'Work', I.work], ['tech-stack', 'Stack', I.code]];
+  const dock = el(`<nav class="dock" aria-label="Quick navigation"><span class="dock__lens" aria-hidden="true"></span>
+    ${DOCK.map(([id, l, ic]) => `<a href="#${id}" data-sec="${id}">${svg(ic)}<span>${l}</span></a>`).join('')}
+    <button class="dock__cta" type="button" aria-haspopup="dialog" aria-controls="contact-sheet" aria-label="Contact">${svg(I.chat)}</button></nav>`);
+  body.append(dock);
+  root.classList.add('has-dock');
+  const navInner = document.querySelector('.nav__inner');
+  if (navInner && resume) navInner.append(el(`<a class="nav__cv" href="${resume}" download aria-label="Download résumé">${svg(I.down)}<span>Résumé</span></a>`));
+  const cta = dock.querySelector('.dock__cta');
+  cta.addEventListener('click', openSheet);
+
+  // Active section drives a sliding glass lens; Education counts as Stack, Contact lights the button
+  const links = [...dock.querySelectorAll('a')], lens = dock.querySelector('.dock__lens');
+  const secs = ['about', 'experience', 'projects', 'tech-stack', 'education', 'contact'].map(id => document.getElementById(id)).filter(Boolean);
+  let cur, spyQ = false;
+  const spy = () => {
+    spyQ = false;
+    if (!small.matches) return;
+    const line = innerHeight * .45;
+    let id = null;
+    for (const s of secs) if (s.getBoundingClientRect().top <= line) id = s.id;
+    if (id === 'education') id = 'tech-stack';
+    if (id === cur) return;
+    cur = id;
+    const a = links.find(l => l.dataset.sec === id);
+    links.forEach(l => l === a ? l.setAttribute('aria-current', 'location') : l.removeAttribute('aria-current'));
+    cta.classList.toggle('is-current', id === 'contact');
+    if (a) { lens.style.width = a.offsetWidth + 'px'; lens.style.translate = a.offsetLeft + 'px 0'; lens.classList.add('is-on'); }
+    else lens.classList.remove('is-on');
+  };
+  addEventListener('scroll', () => { if (!spyQ) { spyQ = true; requestAnimationFrame(spy); } }, { passive: true });
+  addEventListener('resize', () => { cur = undefined; spy(); });
+  small.addEventListener?.('change', () => { cur = undefined; spy(); });
+  spy();
+
+  /* ---------- 3. Touch glow: glass lights up where the finger lands and presses in ---------- */
+  const PRESS = '.tile, .mcard, .proj, .tl__card, .dock a, .dock__cta, .sheet__grid a, .sheet__row > *, .cta, .pill-btn, .nav__cv, .tilt-chip';
+  const BIG = '.tile, .mcard, .proj, .tl__card';
+  const pressed = new Map();
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'touch') return;
+    const t = e.target.closest(PRESS);
+    if (!t) return;
+    const r = t.getBoundingClientRect();
+    t.style.setProperty('--gx', (e.clientX - r.left).toFixed(1) + 'px');
+    t.style.setProperty('--gy', (e.clientY - r.top).toFixed(1) + 'px');
+    t.classList.add('is-pressed');
+    const anim = reduce ? null : t.animate([{ scale: 1 }, { scale: t.matches(BIG) ? .985 : .94 }], { duration: 140, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+    pressed.set(e.pointerId, { t, anim });
+  }, { passive: true });
+  const release = cancel => e => {
+    const p = pressed.get(e.pointerId);
+    if (!p) return;
+    pressed.delete(e.pointerId);
+    const { t, anim } = p;
+    if (anim) {
+      const s = parseFloat(getComputedStyle(t).scale) || 1;
+      anim.cancel();
+      t.animate([{ scale: s }, { scale: 1 }], cancel ? { duration: 160, easing: 'ease-out' } : { duration: 460, easing: 'cubic-bezier(.3,1.6,.5,1)' });
+    }
+    setTimeout(() => t.classList.remove('is-pressed'), cancel ? 0 : 140);
+    setTimeout(() => { if (!t.classList.contains('is-pressed')) { t.style.removeProperty('--gx'); t.style.removeProperty('--gy'); } }, 700);
+  };
+  document.addEventListener('pointerup', release(false), { passive: true });
+  document.addEventListener('pointercancel', release(true), { passive: true }); // fires when the touch turns into a scroll
+
+  /* ---------- 5. Tilt light: the phone's gyroscope moves the glare, rims, avatar and blobs ---------- */
+  if (!reduce && coarse && 'DeviceOrientationEvent' in window) {
+    const blobs = document.querySelector('.bg-blobs');
+    let base = null, tx = .5, ty = .35, lx = .5, ly = .35, raf = 0, live = false;
+    const tick = () => {
+      raf = 0;
+      lx += (tx - lx) * .14; ly += (ty - ly) * .14;
+      root.style.setProperty('--lx', lx.toFixed(3)); root.style.setProperty('--ly', ly.toFixed(3));
+      if (blobs) { blobs.style.setProperty('--px', ((lx - .5) * -2).toFixed(3)); blobs.style.setProperty('--py', ((ly - .35) * -2).toFixed(3)); }
+      if (Math.abs(tx - lx) + Math.abs(ty - ly) > .002) raf = requestAnimationFrame(tick);
+    };
+    const onTilt = e => {
+      if (e.beta == null || e.gamma == null) return;
+      const a = ((screen.orientation?.angle ?? window.orientation ?? 0) + 360) % 360;
+      let x = e.gamma, y = e.beta;
+      if (a === 90) { x = e.beta; y = -e.gamma; } else if (a === 270) { x = -e.beta; y = e.gamma; }
+      if (!base) base = { x, y };
+      // neutral slowly follows however the phone is being held
+      base.x += (x - base.x) * .006; base.y += (y - base.y) * .006;
+      tx = .5 + clamp((x - base.x) / 24, -1, 1) * .5;
+      ty = .35 + clamp((y - base.y) / 24, -1, 1) * .45;
+      if (!live) { live = true; root.classList.add('gyro'); document.querySelector('.tilt-chip')?.remove(); }
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const start = () => addEventListener('deviceorientation', onTilt, { passive: true });
+    start();
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      // iOS only grants motion access from a tap; offer the chip only if no readings arrive on their own
+      let chip = null;
+      const ask = () => DeviceOrientationEvent.requestPermission()
+        .then(s => { if (s === 'granted') try { localStorage.setItem('hk-tilt', '1'); } catch (_) {} })
+        .catch(() => {}).finally(() => chip?.remove());
+      setTimeout(() => {
+        if (live) return;
+        let asked = false;
+        try { asked = !!localStorage.getItem('hk-tilt'); } catch (_) {}
+        if (asked) { addEventListener('touchend', ask, { once: true }); return; }
+        chip = el(`<button class="tilt-chip" type="button">${svg(I.spark)}<span>Tilt your phone to move the light</span></button>`);
+        document.querySelector('.hero .ctas')?.after(chip);
+        chip.addEventListener('click', ask);
+      }, 1200);
+    }
+  }
+
+  /* ---------- 6. Timeline card morphs into a detail panel (View Transitions; plain slide-in fallback) ---------- */
+  const tld = el(`<div class="layer tld" id="tl-detail" role="dialog" aria-modal="true" aria-labelledby="tld-role" hidden>
+    <div class="layer__scrim" data-close></div>
+    <article class="tld__card">
+      <button class="tld__x" type="button" data-close aria-label="Close details"><span class="tl__plus" aria-hidden="true"></span></button>
+      <div class="tld__head"><span class="ring tld__ring" aria-hidden="true"></span><h2 class="tld__role" id="tld-role"></h2><p class="tld__co"></p><p class="tld__date"></p></div>
+      <div class="tld__body"></div>
+    </article>
+  </div>`);
+  body.append(tld);
+  const NAMES = ['tl-card', 'tl-ring', 'tl-role', 'tl-co', 'tl-date', 'tl-plus', 'tld-body'];
+  const srcParts = c => [c, ...['.ring', '.tl__role', '.tl__co', '.tl__date', '.tl__plus'].map(s => c.querySelector(s))];
+  const dstParts = () => ['.tld__card', '.tld__ring', '.tld__role', '.tld__co', '.tld__date', '.tld__x .tl__plus', '.tld__body'].map(s => tld.querySelector(s));
+  const name = (els, on) => els.forEach((x, i) => { if (x) x.style.viewTransitionName = on ? NAMES[i] : ''; });
+  const heads = [...document.querySelectorAll('.tl__head')];
+  const syncHeads = () => heads.forEach(h => small.matches ? h.setAttribute('aria-haspopup', 'dialog') : h.removeAttribute('aria-haspopup'));
+  syncHeads(); small.addEventListener?.('change', syncHeads);
+  let srcCard = null;
+  function openDetail(card) {
+    srcCard = card;
+    tld.querySelector('.tld__ring').innerHTML = card.querySelector('.ring').innerHTML;
+    tld.querySelector('.tld__role').textContent = card.querySelector('.tl__role').textContent;
+    tld.querySelector('.tld__co').textContent = card.querySelector('.tl__co').textContent;
+    tld.querySelector('.tld__date').innerHTML = card.querySelector('.tl__date').innerHTML;
+    tld.querySelector('.tld__body').innerHTML = card.querySelector('.tl__body > div').innerHTML;
+    tld.querySelector('.tld__card').scrollTop = 0;
+    name(srcParts(card), true);
+    openLayer(tld, () => vt(() => {
+      name(srcParts(card), false);
+      tld.hidden = false; tld.classList.add('is-open');
+      name(dstParts(), true);
+      tld.querySelector('.tld__x').focus({ preventScroll: true });
+    }, () => name(dstParts(), false)), () => {
+      name(dstParts(), true);
+      vt(() => {
+        name(dstParts(), false);
+        tld.classList.remove('is-open'); tld.hidden = true;
+        if (srcCard) name(srcParts(srcCard), true);
+      }, () => { if (srcCard) name(srcParts(srcCard), false); srcCard = null; });
+    });
+  }
+  // Capture phase: on small screens this replaces the inline accordion before the page's own handler runs
+  document.addEventListener('click', e => {
+    const head = e.target.closest('.tl__head');
+    if (!head || !small.matches || layer) return;
+    e.stopPropagation();
+    openDetail(head.closest('.tl__card'));
+  }, true);
 })();
 </script>
 </body>
